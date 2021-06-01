@@ -1,0 +1,15 @@
+.hgignore.swp
+.swp
+vender/
+logs/
+composer.lock
+gitpush.sh
+pkg/
+bin/
+cbuild
+.DS_Store
+main
+gf-empty
+go.sum
+config/main-local.toml
+/resources

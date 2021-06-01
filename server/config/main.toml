@@ -1,0 +1,27 @@
+charset = "utf-8"
+language = "zh-CN"
+timeZone = "Asia/Shanghai"
+
+[db]
+[db.default]
+host = "localhost"
+port = 3306
+username = "root"
+password = ""
+dbname = ""
+charset = "utf8mb4"
+parseTime = false
+debug = true
+[db.stats]
+host = "localhost"
+port = 3306
+username = "root"
+password = ""
+dbname = ""
+charset = "utf8mb4"
+parseTime = false
+
+[redis]
+
+[redis.default]
+
