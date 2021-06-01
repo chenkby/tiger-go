@@ -48,7 +48,13 @@ func Config() *configure.Config {
 	return config
 }
 
-func GetDb(configName string) *gorm.DB {
+func GetDb(name ...string) *gorm.DB {
+	defaultGroup := "default"
+	if len(name) > 0 && name[0] != "" {
+		defaultGroup = name[0]
+	}
+	dbConfig := Config().GetStringMap("db.default")
+	fmt.Println("config",dbConfig, defaultGroup)
 	dsn := "root:@tcp(127.0.0.1:3306)/mang?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
