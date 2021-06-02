@@ -1,8 +1,8 @@
 package define
 
 import (
-	_ "mang/modules/article/model"
-	"mang/tiger/data"
+	_ "tiger-go/modules/article/model"
+	"tiger-go/tiger/data"
 )
 
 // 分页列表请求参数

@@ -3,7 +3,7 @@ package middle
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"mang/tiger/response"
+	"tiger-go/tiger/response"
 )
 
 // 处理服务器异常(500)

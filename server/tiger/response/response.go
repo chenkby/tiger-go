@@ -2,7 +2,7 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
-	"mang/tiger/data"
+	"tiger-go/tiger/data"
 	"net/http"
 )
 

@@ -2,10 +2,11 @@ package data
 
 import (
 	"gorm.io/gorm"
+	"tiger-go/tiger/db"
 )
 
 type Provider struct {
-	Query    *gorm.DB
+	Query    *db.DB
 	Page     int
 	PageSize int
 	OrderBy  string
@@ -24,11 +25,11 @@ func (provider *Provider) Find(dest interface{}) (*Paging, error) {
 		return paging, nil
 	}
 
-	query.Limit(paging.PageSize).Offset(paging.Offset)
+	query = query.Limit(paging.PageSize).Offset(paging.Offset)
 
 	// @todo parse orderby
 	if provider.OrderBy != "" {
-		query.Order(provider.OrderBy)
+		query = query.Order(provider.OrderBy)
 	}
 
 	if err := query.Find(dest).Error; err != nil {
@@ -36,5 +37,4 @@ func (provider *Provider) Find(dest interface{}) (*Paging, error) {
 	} else {
 		return paging, nil
 	}
-
 }

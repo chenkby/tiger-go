@@ -10,9 +10,10 @@ import (
 	zh_translations "github.com/go-playground/validator/v10/translations/zh"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	"mang/applications/api/router"
-	"mang/tiger"
 	"reflect"
+	_ "tiger-go/applications/api/boot"
+	"tiger-go/applications/api/router"
+	"tiger-go/tiger"
 	"time"
 )
 
@@ -61,7 +62,6 @@ import (
 
 // @x-extension-openapi {"example": "value on a json format"}
 
-
 var trans ut.Translator
 var bookableDate validator.Func = func(fl validator.FieldLevel) bool {
 	date, ok := fl.Field().Interface().(time.Time)
@@ -74,10 +74,9 @@ var bookableDate validator.Func = func(fl validator.FieldLevel) bool {
 	return true
 }
 
+
 func main() {
-	// 1、读取配置文件
-	// 2、通过配置文件运行http server
-	tiger.SetEnv(tiger.EnvDebug)
+
 	//tiger.Run()
 	//defer func() {
 	//	if exception := recover(); exception != nil {
@@ -90,21 +89,20 @@ func main() {
 	// 3、运行
 
 
-	tiger.Config().LoadConfig("./config/main", "./config/main-local", "applications/api/config/api")
-	serverConfig :=tiger.Config().GetStringMapString("server")
+	serverConfig := tiger.Config().GetStringMapString("server")
 	s := gin.Default()
 
 	uni := ut.New(zh.New())
 	trans, _ = uni.GetTranslator("zh")
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		//注册翻译器
-		_= zh_translations.RegisterDefaultTranslations(v, trans)
+		_ = zh_translations.RegisterDefaultTranslations(v, trans)
 		//注册自定义函数
-		_=v.RegisterValidation("bookabledate", bookableDate)
+		_ = v.RegisterValidation("bookabledate", bookableDate)
 
 		//注册一个函数，获取struct tag里自定义的label作为字段名
 		v.RegisterTagNameFunc(func(fld reflect.StructField) string {
-			name:=fld.Tag.Get("label")
+			name := fld.Tag.Get("label")
 			return name
 		})
 		//根据提供的标记注册翻译

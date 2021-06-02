@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	v1 "mang/applications/api/internal/v1"
+	v1 "tiger-go/applications/api/internal/v1"
 )
 
 func LoadRoute(r *gin.Engine) {

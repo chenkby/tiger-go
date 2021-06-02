@@ -10,19 +10,26 @@ type Config struct {
 	*viper.Viper
 }
 
-// 加载配置，允许合并多个配置文件
-func (c *Config) LoadConfig(configFile string, otherConfigFile ...string) {
-	path, name := filepath.Split(configFile)
-	if name != "" {
-		c.SetConfigName(name)
+var config *Config
+
+func New() *Config {
+	if config == nil {
+		config = &Config{
+			viper.New(),
+		}
+		config.SetConfigName("main")
+		config.AddConfigPath("./config")
+		config.AddConfigPath(".")
+		err := config.ReadInConfig() // Find and read the config file
+		if err != nil {              // Handle errors reading the config file
+			panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		}
 	}
-	if path != "" {
-		c.AddConfigPath(path)
-	}
-	err := c.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
+	return config
+}
+
+// 加载多个配置文件,后面的会覆盖前面的
+func (c *Config) LoadConfig(otherConfigFile ...string) {
 	if len(otherConfigFile) > 0 {
 		for _, configFile := range otherConfigFile {
 			path, name := filepath.Split(configFile)
@@ -37,5 +44,4 @@ func (c *Config) LoadConfig(configFile string, otherConfigFile ...string) {
 			}
 		}
 	}
-	fmt.Println(c.AllSettings())
 }

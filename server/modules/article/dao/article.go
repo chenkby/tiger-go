@@ -1,7 +1,10 @@
 package dao
 
 import (
-	"mang/modules/article/dao/internal"
+	"gorm.io/gorm"
+	"tiger-go/modules/article/dao/internal"
+	"tiger-go/tiger"
+	"tiger-go/tiger/db"
 )
 
 type articleDao struct {
@@ -15,6 +18,24 @@ type articleDao struct {
 //	}
 //)
 
-var Article = &articleDao{
-	internal.Article,
+type dao struct {
+	*gorm.DB
+	PrimaryKey string
 }
+
+//func newDao() *gorm.DB {
+//	dao := &dao{
+//		tiger.Db().Table("article"),
+//	}
+//	//return dao
+//}
+
+var Article = &db.DB{
+	DB:         tiger.Db().Table("article"),
+	PrimaryKey: "article_id",
+}
+
+
+//var Article = &articleDao{
+//	internal.Article,
+//}

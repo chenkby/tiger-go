@@ -3,7 +3,7 @@ package model
 import (
 	"fmt"
 	"gorm.io/gorm"
-	"mang/modules/article/model/internal"
+	"tiger-go/modules/article/model/internal"
 )
 
 type Article internal.Article

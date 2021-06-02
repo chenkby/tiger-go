@@ -3,9 +3,9 @@ package v1
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"mang/applications/api/internal/define"
-	"mang/applications/api/internal/service"
-	"mang/tiger/response"
+	"tiger-go/applications/api/internal/define"
+	"tiger-go/applications/api/internal/service"
+	"tiger-go/tiger/response"
 )
 
 var Article = new(articleController)

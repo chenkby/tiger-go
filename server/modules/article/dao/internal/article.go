@@ -2,7 +2,7 @@ package internal
 
 import (
 	"gorm.io/gorm"
-	"mang/tiger"
+	"tiger-go/tiger"
 )
 
 type ArticleDao struct {
@@ -13,7 +13,7 @@ type ArticleDao struct {
 }
 
 var Article = ArticleDao{
-	tiger.GetDb("default").Table("article").Session(&gorm.Session{}),
+	tiger.Db().Table("article").Session(&gorm.Session{}),
 	"article",
 	"article_id",
 	columns{

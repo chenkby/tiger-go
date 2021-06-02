@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"github.com/pkgng/copit"
-	"mang/applications/api/internal/define"
-	"mang/modules/article/dao"
-	"mang/modules/article/model"
-	"mang/modules/article/services"
-	"mang/tiger/data"
-	"mang/tiger/util/convert"
+	"tiger-go/applications/api/internal/define"
+	"tiger-go/modules/article/dao"
+	"tiger-go/modules/article/model"
+	"tiger-go/modules/article/services"
+	"tiger-go/tiger/data"
+	"tiger-go/tiger/util/convert"
 )
 
 var Article = new(articleService)
@@ -23,7 +23,7 @@ type Pagination struct {
 }
 
 func (s *articleService) List(ctx context.Context, req *define.ArticleListReq) (*define.ArticleListResp, error) {
-	query := dao.Article.Where("1=1")
+	query := dao.Article
 	provider := data.Provider{
 		Query:    query,
 		Page:     req.Page,

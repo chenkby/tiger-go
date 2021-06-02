@@ -1,7 +1,7 @@
 package services
 
 import (
-	"mang/modules/article/dao"
+	"tiger-go/modules/article/dao"
 )
 
 var Article = new(ArticleService)
