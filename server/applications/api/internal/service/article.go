@@ -17,18 +17,13 @@ type articleService struct {
 	services.ArticleService
 }
 
-type Pagination struct {
-	CurrentPage int64 `json:"current_page"`
-	TotalCount  int64 `json:"total_count"`
-}
-
 func (s *articleService) List(ctx context.Context, req *define.ArticleListReq) (*define.ArticleListResp, error) {
 	query := dao.Article
 	provider := data.Provider{
 		Query:    query,
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		OrderBy:  "",
+		OrderBy:  "article_id desc",
 	}
 	result := ([]*define.ArticleViewResp)(nil)
 	paging, err := provider.Find(&result)
