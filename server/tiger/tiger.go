@@ -4,6 +4,7 @@ import (
 	"os"
 	"tiger-go/tiger/configure"
 	"tiger-go/tiger/db"
+	"tiger-go/tiger/i18n"
 )
 
 const (
@@ -31,4 +32,8 @@ func Config() *configure.Config {
 // 返回数据库连接对象(gorm.DB)
 func Db(name ...string) *db.DB {
 	return db.New(name...)
+}
+
+func I18N() *i18n.I18N {
+	return i18n.New()
 }

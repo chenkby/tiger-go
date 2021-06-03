@@ -2,9 +2,18 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
-	"tiger-go/tiger/data"
 	"net/http"
+	"tiger-go/tiger/data"
 )
+
+const (
+	FORMAT_HTML string = "html"
+	FORMAT_XML  string = "xml"
+)
+
+type Response struct {
+
+}
 
 func Success(c *gin.Context, data interface{}, attach ...map[string]interface{}) {
 	response := map[string]interface{}{
@@ -34,5 +43,4 @@ func Error(c *gin.Context, err error, code ...int) {
 		"err_code": code[0],
 		"err_msg":  err.Error(),
 	})
-
 }

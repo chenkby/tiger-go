@@ -29,7 +29,7 @@ func New() *Config {
 }
 
 // 加载多个配置文件,后面的会覆盖前面的
-func (c *Config) LoadConfig(otherConfigFile ...string) {
+func (c *Config) Load(otherConfigFile ...string) {
 	if len(otherConfigFile) > 0 {
 		for _, configFile := range otherConfigFile {
 			path, name := filepath.Split(configFile)
