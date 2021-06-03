@@ -1,0 +1,12 @@
+/// borderRadius|1|Radius|0
+$--border-radius-base: 2px !default;
+/// borderRadius|1|Radius|0
+$--border-radius-small: 2px !default;
+/// borderRadius|1|Radius|0
+$--border-radius-circle: 100% !default;
+/// borderRadius|1|Radius|0
+$--border-radius-zero: 0 !default;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: 'element-plus/lib/theme-chalk/fonts';
+@import 'element-plus/packages/theme-chalk/src/index';
