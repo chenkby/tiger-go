@@ -1,10 +1,11 @@
 import { createApp } from 'vue'
+// router
 import ElementPlus from 'element-plus'
+import router from './router'
 import './style/element-variables.scss'
 import App from './App.vue'
 
-// router
-import router from './router'
+console.log(router)
 
 // // element ui plus
 // // import 'element-plus/packages/theme-chalk/src/base.scss'

@@ -2,8 +2,14 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import'
 
+const { resolve } = require('path')
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  alias: {
+    '@': resolve(__dirname, 'src'),
+    vue: 'vue/dist/vue.esm-bundler.js', // @todo 对最终发布有什么影响 ？？
+  },
   plugins: [
     vue(),
     styleImport({
@@ -16,9 +22,7 @@ export default defineConfig({
             name = name.slice(3)
             return `element-plus/packages/theme-chalk/src/${name}.scss`
           },
-          resolveComponent: (name) => {
-            return `element-plus/lib/${name}`
-          },
+          resolveComponent: (name) => `element-plus/lib/${name}`,
         },
       ],
     }),

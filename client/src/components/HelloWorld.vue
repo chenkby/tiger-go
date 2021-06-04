@@ -1,17 +1,5 @@
 <template>
-  <h1>{{ msg }}</h1>
-
-  <p>
-    <router-link to="/login">login</router-link>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
-  </p>
-
-  <el-button type="primary" @click="state.count++">count is: {{ state.count }}</el-button>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
+  这里是HelloWorld
 </template>
 
 <script setup>
