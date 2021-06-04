@@ -10,14 +10,11 @@ const routes = [
     path: '/article',
     component: () => import('@/modules/article/views/index.vue'),
   },
-]
-
-const baseRoutes = [
   {
-    path: '/article',
-    component: () => import('@/modules/article/views/index.vue'),
+    path: '/article/create',
+    component: () => import('@/modules/article/views/form.vue'),
   },
-  // { path: '/:pathMatch(.*)', component: NotFoundComponent },
+  // 404{ path: '/:pathMatch(.*)', component: NotFoundComponent },
 ]
 
 const router = createRouter({
