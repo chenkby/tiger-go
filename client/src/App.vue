@@ -209,9 +209,8 @@ body {
   box-sizing: border-box;
 }
 .layout-page-container {
-  padding-left: 260px;
   padding-bottom: 100px;
-  padding: 20px 20px 100px 260px;
+  padding: 20px 30px 100px 270px;
 }
 .app-logo {
   height: 80px;

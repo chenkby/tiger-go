@@ -14,6 +14,10 @@ const routes = [
     path: '/article/create',
     component: () => import('@/modules/article/views/form.vue'),
   },
+  {
+    path: '/article/view',
+    component: () => import('@/modules/article/views/view.vue'),
+  },
   // 404{ path: '/:pathMatch(.*)', component: NotFoundComponent },
 ]
 

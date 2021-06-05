@@ -27,7 +27,7 @@
           </div>
         </div>
       </el-col>
-      <el-col :lg="20">
+      <el-col :lg="15">
         <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="活动名称">
             <el-input v-model="form.name"></el-input>
@@ -67,6 +67,7 @@
           <el-form-item label="活动形式">
             <el-input type="textarea" v-model="form.desc"></el-input>
           </el-form-item>
+          <p style="height:800px">很长的内容</p>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">立即创建</el-button>
             <el-button>取消</el-button>
@@ -104,14 +105,15 @@ export default {
 <style lang="scss">
 .form-container {
   margin-top: 20px;
-  .el-form {
-    width: 1000px;
-  }
+  position: relative;
+
   .quick-nav {
     border-right: 1px solid #efefef;
     text-align: right;
     padding-right: 20px;
     width: 150px;
+    position: fixed;
+
     .item {
       padding: 5px 0;
     }

@@ -54,16 +54,38 @@
     </el-table-column>
     <el-table-column prop="address" label="地址">
     </el-table-column>
-    <el-table-column fixed="right" label="操作" width="120">
+    <el-table-column fixed="right" label="操作" width="150">
       <el-button type="text">
         编辑
       </el-button>
       <el-divider direction="vertical"></el-divider>
+      <el-popover placement="top-end" :width="200" v-model:visible="visible">
+        <p>确定要删除这条数据吗？</p>
+        <div style="text-align: right; margin: 0">
+          <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+          <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
+        </div>
+        <template #reference>
+          <el-button type="text" @click="visible = true">删除</el-button>
+        </template>
+      </el-popover>
+      <el-divider direction="vertical"></el-divider>
       <el-button type="text">
-        删除
+        查看
       </el-button>
     </el-table-column>
   </el-table>
+
+  <div class="grid-footer">
+    <div class="grid-footer__left">
+
+    </div>
+    <div class="grid-footer__right">
+      <el-pagination background :page-size="100" layout="total,sizes, prev, pager, next, jumper" :total="1000">
+      </el-pagination>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -143,5 +165,11 @@ export default {
   }
   .grid-header__right {
   }
+}
+.grid-footer {
+  padding: 20px 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
