@@ -13,6 +13,7 @@
     <el-row>
       <el-col :lg="3">
         <div class="quick-nav">
+          <div class="item title">快速导航</div>
           <div class="item">
             <el-link>基本资料</el-link>
           </div>
@@ -90,15 +91,15 @@ export default {
         delivery: false,
         type: [],
         resource: '',
-        desc: ''
-      }
+        desc: '',
+      },
     }
   },
   methods: {
     onSubmit() {
       console.log('submit!')
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -111,11 +112,23 @@ export default {
     border-right: 1px solid #efefef;
     text-align: right;
     padding-right: 20px;
-    width: 150px;
+    width: 120px;
     position: fixed;
 
     .item {
       padding: 5px 0;
+      font-size: 12px;
+      .el-link.el-link--default {
+        color: #333;
+        &:hover {
+          color: $--color-primary;
+        }
+      }
+    }
+    .title {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #777;
     }
     .el-link {
       font-weight: normal;

@@ -1,5 +1,5 @@
 <template>
-  <el-skeleton :rows="5" animated :loading="loading">
+  <el-skeleton :rows="10" animated :loading="loading">
     <!-- <template #template>
       <el-skeleton-item variant="cert" style="width: 240px; height: 20px;" />
       <div>
@@ -171,7 +171,7 @@ export default {
   created() {
     setTimeout(() => {
       this.loading = false
-    }, 5000)
+    }, 1000)
   },
   computed: {
   },
