@@ -6,9 +6,20 @@ const { resolve } = require('path')
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  alias: {
-    '@': resolve(__dirname, 'src'),
-    vue: 'vue/dist/vue.esm-bundler.js', // @todo 对最终发布有什么影响 ？？
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+      vue: 'vue/dist/vue.esm-bundler.js', // @todo 对最终发布有什么影响 ？？
+    },
+  },
+  // 引用elementUI全局scss变量文件,引用后自定义失效
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "@/style/var.scss";',
+        // '@import "element-plus/packages/theme-chalk/src/common/var.scss";',
+      },
+    },
   },
   plugins: [
     vue(),

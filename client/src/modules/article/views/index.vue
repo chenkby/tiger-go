@@ -1,97 +1,113 @@
 <template>
-  <el-breadcrumb separator="/">
-    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-    <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-    <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-  </el-breadcrumb>
-  <div class="page-header">
-    <div class="title">活动管理</div>
-  </div>
+  <el-skeleton :rows="5" animated :loading="loading">
+    <!-- <template #template>
+      <el-skeleton-item variant="cert" style="width: 240px; height: 20px;" />
+      <div>
+        <el-skeleton-item variant="h1" style="width: 100px; height: 40px;" />
+      </div>
+      <div style="display:flex;align-items:center;justify-content: space-between;">
+        <el-skeleton-item variant="rect" style="width:300px;height: 40px;" />
+        <el-skeleton-item variant="button" style="width: 100px;height: 40px;" />
+      </div>
+      <el-skeleton-item variant="p" style="width: 50%" />
+      <div style="display: flex; align-items: center; justify-items: space-between;">
+        <el-skeleton-item variant="text" style="margin-right: 16px;" />
+        <el-skeleton-item variant="text" style="width: 30%;" />
+      </div>
 
-  <div class="grid-header">
-    <!--query form-->
-    <div class="grid-header__left">
+    </template> -->
 
-      <el-form :inline="true" :model="formInline" class="search-form">
-        <div class="el-row">
-          <div class="el-col el-col-24">
-            <el-form-item>
-              <el-input placeholder="输入关键词"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" icon="el-icon-search">查询</el-button>
-            </el-form-item>
-            <el-form-item>
-              <span @click="toggleMoreFilters" class="btn-more-filters">更多筛选项<i class="el-icon-arrow-up"></i></span>
-            </el-form-item>
-          </div>
-        </div>
-        <el-collapse-transition>
-          <div class="el-row">
-            <div class="el-col el-col-24">
-              <el-form-item>
-                <el-input placeholder="这是第二行的搜索"></el-input>
-              </el-form-item>
+    <template #default>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+        <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+      </el-breadcrumb>
+      <div class="page-header">
+        <div class="title">活动管理</div>
+      </div>
+
+      <div class="grid-header">
+        <!--query form-->
+        <div class="grid-header__left">
+
+          <el-form :inline="true" :model="formInline" class="search-form">
+            <div class="el-row">
+              <div class="el-col el-col-24">
+                <el-form-item>
+                  <el-input placeholder="输入关键词" prefix-icon="el-icon-search" clearable></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary">查询</el-button>
+                </el-form-item>
+                <el-form-item>
+                  <span @click="toggleMoreFilters" class="btn-more-filters">
+                    更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                  </span>
+                </el-form-item>
+              </div>
             </div>
-          </div>
-        </el-collapse-transition>
-      </el-form>
+            <el-collapse-transition>
+              <div class="el-row" v-show="showMoreFilters">
+                <div class="el-col el-col-24">
+                  <el-form-item>
+                    <el-input placeholder="这是第二行的搜索"></el-input>
+                  </el-form-item>
 
-    </div>
+                </div>
+              </div>
+            </el-collapse-transition>
+          </el-form>
 
-    <div class="grid-header__right">
-      <el-button icon="el-icon-plus" type="success">添加内容</el-button>
-    </div>
-  </div>
-
-  <el-table :data="tableData" style="width: 100%" size="medium">
-    <el-table-column type="selection" width="55">
-    </el-table-column>
-    <el-table-column prop="date" label="日期" width="180">
-    </el-table-column>
-    <el-table-column prop="name" label="姓名" width="180">
-    </el-table-column>
-    <el-table-column prop="address" label="地址">
-    </el-table-column>
-    <el-table-column fixed="right" label="操作" width="150">
-      <el-button type="text">
-        编辑
-      </el-button>
-      <el-divider direction="vertical"></el-divider>
-      <el-popover placement="top-end" :width="200" v-model:visible="visible">
-        <p>确定要删除这条数据吗？</p>
-        <div style="text-align: right; margin: 0">
-          <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-          <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
         </div>
-        <template #reference>
-          <el-button type="text" @click="visible = true">删除</el-button>
-        </template>
-      </el-popover>
-      <el-divider direction="vertical"></el-divider>
-      <el-button type="text">
-        查看
-      </el-button>
-    </el-table-column>
-  </el-table>
 
-  <div class="grid-footer">
-    <div class="grid-footer__left">
+        <div class="grid-header__right">
+          <el-button icon="el-icon-plus" type="success">添加内容</el-button>
+        </div>
+      </div>
 
-    </div>
-    <div class="grid-footer__right">
-      <el-pagination background :page-size="100" layout="total,sizes, prev, pager, next, jumper" :total="1000">
-      </el-pagination>
-    </div>
-  </div>
+      <el-table :data="tableData" style="width: 100%" size="medium">
+        <el-table-column type="selection" width="55">
+        </el-table-column>
+        <el-table-column prop="date" label="日期" width="180">
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" width="180">
+        </el-table-column>
+        <el-table-column prop="address" label="地址">
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="150" class-name="action-column">
+          <router-link :to="{path: '/article/create'}">编辑</router-link>
+          <el-divider direction="vertical"></el-divider>
+          <el-popconfirm placement="top-start" confirmButtonText='删除' confirmButtonType="danger" icon="el-icon-info" iconColor="red" title="确定要删除这条数据吗？">
+            <template #reference>
+              <span>删除</span>
+            </template>
+          </el-popconfirm>
+          <el-divider direction="vertical"></el-divider>
+          <router-link :to="{path: '/article/view'}">查看</router-link>
+        </el-table-column>
+      </el-table>
 
+      <div class="grid-footer">
+        <div class="grid-footer__left">
+
+        </div>
+        <div class="grid-footer__right">
+          <el-pagination background :page-size="100" layout="total,sizes, prev, pager, next, jumper" :total="1000">
+          </el-pagination>
+        </div>
+      </div>
+    </template>
+  </el-skeleton>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      showMoreFilters: false,
+      loading: true,
       formInline: {
         user: '',
         region: '',
@@ -148,7 +164,16 @@ export default {
     }
   },
   methods: {
-
+    toggleMoreFilters() {
+      this.showMoreFilters = !this.showMoreFilters
+    },
+  },
+  created() {
+    setTimeout(() => {
+      this.loading = false
+    }, 5000)
+  },
+  computed: {
   },
 }
 </script>
@@ -161,6 +186,13 @@ export default {
   .search-form {
     .btn-more-filters {
       cursor: pointer;
+      color: #666;
+      &:hover {
+        color: #222;
+      }
+      i {
+        margin-left: 3px;
+      }
     }
   }
   .grid-header__right {
@@ -171,5 +203,32 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  .el-pagination {
+    font-weight: normal;
+  }
+}
+.el-table {
+  color: #111;
+}
+// 操作列
+.action-column {
+  text-align: right !important;
+  .el-link,
+  .el-button {
+    font-weight: normal;
+  }
+  .el-link {
+    line-height: 1;
+  }
+  span,
+  a {
+    color: $--color-primary;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 </style>

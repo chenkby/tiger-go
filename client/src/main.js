@@ -1,8 +1,12 @@
 import { createApp } from 'vue'
 // router
 import ElementPlus from 'element-plus'
-import router from './router'
 import './style/element-variables.scss'
+// import 'dayjs/locale/zh-cn'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
+
+import router from './router'
+
 import App from './App.vue'
 
 console.log(router)
@@ -15,6 +19,6 @@ const app = createApp(App)
 app.use(router)
 
 // 可以通过配置size改变大小，如：size: 'medium'
-app.use(ElementPlus, { zIndex: 2000 })
+app.use(ElementPlus, { zIndex: 2000, locale })
 
 app.mount('#app')
