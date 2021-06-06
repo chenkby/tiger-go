@@ -40,16 +40,21 @@
         </el-dropdown>
       </div>
     </el-header>
-    <div class="layout-main">
+    <div class="layout-main" :class="{collapse:isCollapse}">
       <el-scrollbar>
         <div class="layout-main__body-container">
           <el-scrollbar class="layout-sidebar">
 
             <div class="sidebar-menu">
-              <el-menu default-active="2" class="el-menu-vertical-demo" background-color="#f5f5f5" text-color="#333" active-text-color="#000">
+              <div class="test">
+                <span class="el-icon-menu"></span>
+                <span class="txt">导航一</span>
+                <i class="el-submenu__icon-arrow el-icon-arrow-down"></i>
+              </div>
+              <el-menu :collapse="isCollapse" default-active="2" class="el-menu-vertical-demo" background-color="#f5f5f5" text-color="#333" active-text-color="#000">
                 <el-submenu index="1">
                   <template #title>
-                    <i class="el-icon-location"></i>
+                    <i class="el-icon-menu"></i>
                     <span>导航一</span>
                   </template>
                   <el-menu-item-group>
@@ -66,21 +71,26 @@
                   </el-submenu>
                 </el-submenu>
                 <el-menu-item index="2">
-                  <i class="el-icon-menu"></i>
-                  <template #title>导航二</template>
+                  <template #title>
+                    <i class="el-icon-menu"></i>
+                    <span>导航二</span>
+                  </template>
                 </el-menu-item>
                 <el-menu-item index="3" disabled>
                   <i class="el-icon-document"></i>
                   <template #title>导航三</template>
                 </el-menu-item>
                 <el-menu-item index="4">
-                  <i class="el-icon-setting"></i>
-                  <template #title>导航四</template>
+
+                  <template #title>
+                    <i class="el-icon-setting"></i>
+                    <span>导航四</span>
+                  </template>
                 </el-menu-item>
               </el-menu>
             </div>
 
-            <div class="sidebar-collapse">
+            <div class="sidebar-collapse" @click="toggleSidebar">
               <i class="el-icon-s-fold"></i>
             </div>
 
@@ -104,9 +114,15 @@ import HelloWorld from './components/HelloWorld.vue'
 export default {
   data() {
     return {
-
+      isCollapse: false
     }
   },
+  methods: {
+    toggleSidebar() {
+      this.isCollapse = !this.isCollapse
+      console.log(this.isCollapse)
+    }
+  }
 }
 
 // This starter template is using Vue 3 experimental <script setup> SFCs
@@ -195,6 +211,19 @@ body {
   min-height: auto;
   box-sizing: border-box;
 }
+
+// 最小化侧边栏
+.layout-main.collapse {
+  .layout-sidebar {
+    width: 50px;
+  }
+  .sidebar-collapse {
+    left: 50px;
+  }
+  .layout-page-container {
+    margin-left: 50px;
+  }
+}
 .layout-sidebar {
   background-color: #f5f5f5;
   position: absolute;
@@ -202,7 +231,7 @@ body {
   left: 0;
   bottom: 0;
   width: 240px;
-  transition: max-width ease-in-out 0.3s;
+  transition: width ease-in-out 0.2s;
 }
 .layout-main__body-container {
   height: 100%;
@@ -210,7 +239,9 @@ body {
 }
 .layout-page-container {
   padding-bottom: 100px;
-  padding: 20px 30px 100px 270px;
+  padding: 20px 30px 100px 30px;
+  transition: margin ease-in-out 0.2s;
+  margin-left: 240px;
 }
 .app-logo {
   height: 80px;
@@ -234,10 +265,9 @@ body {
   }
 }
 .sidebar-collapse {
-  display: none;
-  position: absolute;
+  position: fixed;
   top: calc(50% - 32px);
-  right: -18px;
+  left: 240px;
   z-index: 9999;
   padding: 0;
   border-width: 9px 0 9px 20px;
@@ -247,11 +277,14 @@ body {
   height: 64px;
   line-height: 46px;
   color: #000;
-  font-size: 12px;
   border-style: solid;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: left ease-in-out 0.2s;
   i {
     position: relative;
-    left: -15px;
+    left: -18px;
   }
 }
 
@@ -302,6 +335,54 @@ body {
     font-size: 24px;
     font-weight: 400;
     color: #111;
+  }
+}
+.el-submenu [class^='el-icon-'],
+.el-menu-item [class^='el-icon-'] {
+  width: auto;
+  margin-right: 0;
+}
+.el-submenu__title,
+.el-menu-item {
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  flex-wrap: nowrap;
+  span {
+    margin-left: 15px;
+  }
+}
+.test * {
+  vertical-align: middle;
+}
+.test {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px 15px 24px;
+  position: relative;
+  box-sizing: border-box;
+  height: 50px;
+  line-height: normal;
+  span {
+    display: inline-block;
+  }
+  .el-icon-s-cooperation,
+  .el-icon-menu {
+    font-size: 18px;
+    margin-right: 0;
+    width: auto;
+  }
+  .txt {
+    font-size: 14px;
+  }
+  .el-submenu__icon-arrow {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    margin-top: -7px;
+    transition: transform 0.3s;
+    font-size: 12px;
   }
 }
 </style>
