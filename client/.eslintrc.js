@@ -2,7 +2,7 @@ module.exports = {
   extends: ['plugin:vue/vue3-essential', 'airbnb-base'],
   parserOptions: {
     ecmaVersion: 2020,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: ['vue'],
   rules: {
@@ -23,13 +23,23 @@ module.exports = {
     'no-extra-semi': 2, // 禁止多余的冒号
     semi: [2, 'never'],
     'no-unused-vars': 'off',
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'never',
+        objects: 'never',
+        imports: 'never',
+        exports: 'never',
+        functions: 'never'
+      }
+    ]
   },
   overrides: [
     {
       files: ['*.vue'],
       rules: {
         // 这里写覆盖vue文件的规则
-      },
-    },
-  ],
+      }
+    }
+  ]
 }

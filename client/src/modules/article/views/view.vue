@@ -8,8 +8,8 @@
   <div class="page-header">
     <div class="title">查看详情</div>
   </div>
-  <el-descriptions title="用户信息" border>
-    <el-descriptions-item label="用户名">kooriookami</el-descriptions-item>
+  <el-descriptions :column="1" title="用户信息" border>
+    <el-descriptions-item :span="1" label="用户名">kooriookami</el-descriptions-item>
     <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
     <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
     <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
@@ -32,6 +32,17 @@ export default {
   data() {
     return {
 
+    }
+  },
+  computed: {
+    /**
+     * 列数，如果手机端，只使用1列，否则使用默认的3列
+     */
+    column() {
+      if (this.$device === 'mobile') {
+        return 1
+      }
+      return 3
     }
   }
 }

@@ -8,5 +8,8 @@
     "[json]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    "prettier.semi": false, // 分号
+    "prettier.singleQuote": true, // 单引号
+    "prettier.trailingComma": "none" // 去掉结尾的逗号
 }

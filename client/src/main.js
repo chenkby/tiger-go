@@ -9,7 +9,7 @@ import router from './router'
 
 import App from './App.vue'
 
-console.log(router)
+import { detect } from './utils/helper'
 
 // // element ui plus
 // // import 'element-plus/packages/theme-chalk/src/base.scss'
@@ -20,5 +20,6 @@ app.use(router)
 
 // 可以通过配置size改变大小，如：size: 'medium'
 app.use(ElementPlus, { zIndex: 2000, locale })
+app.config.globalProperties.$device = detect().device.type || 'pc'
 
 app.mount('#app')
