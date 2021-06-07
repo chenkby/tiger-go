@@ -4,7 +4,7 @@
       <div class="brand-container">
         <brand></brand>
       </div>
-      <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0" @submit.native.prevent>
+      <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0">
         <el-form-item prop="username" class="username-item">
           <el-input type="text" prefix-icon="el-icon-user" v-model="loginForm.username" placeholder="输入登录帐号">
           </el-input>
@@ -79,18 +79,18 @@ body {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  overflow: hidden;
 
   &:after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100%;
     bottom: 0;
     background: url(../assets/images/login-bg.jpg) no-repeat #f5f7fa;
     background-size: cover;
-
-    filter: blur(2px);
+    filter: blur(5px);
   }
   .brand-container {
     margin-bottom: 40px;

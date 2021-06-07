@@ -25,7 +25,7 @@
         <el-breadcrumb-item>活动详情</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="page-header">
-        <div class="title">活动管理</div>
+        <div class="title">活动管理2</div>
       </div>
 
       <div class="grid-header">

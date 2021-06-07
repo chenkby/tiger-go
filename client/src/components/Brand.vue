@@ -1,7 +1,7 @@
 <template>
-  <div class="brand">
-    <img class="logo" src="https://ergev2.tuxiaobei.com/manage/img/logo.93fa7efe.png" />
-    <div class="name">{{name}}</div>
+  <div class="brand" :class="{cursor: this.link}">
+    <img class="logo" src="https://ergev2.tuxiaobei.com/manage/img/logo.93fa7efe.png" @click="goHome" />
+    <div class="name" @click="goHome">{{name}}</div>
   </div>
 </template>
 
@@ -16,11 +16,29 @@ export default {
     name: {
       type: String,
       default: '系统名称'
+    },
+    /**
+     * 点击时的链接地址
+     */
+    link: {
+      type: String,
+      default: '/'
     }
   },
   data() {
     return {
 
+    }
+  },
+  methods: {
+    goHome() {
+      this.$router.push(this.link)
+    },
+    onClick() {
+      console.log("aaa")
+      if (this.link !== '') {
+        this.$router.push('/')
+      }
     }
   }
 }
@@ -41,6 +59,9 @@ export default {
     font-size: 18px;
     font-weight: normal;
     margin-left: 10px;
+  }
+  &.cursor {
+    cursor: pointer;
   }
 }
 </style>

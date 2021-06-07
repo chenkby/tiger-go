@@ -29,7 +29,7 @@
         </div>
       </el-col>
       <el-col :lg="15">
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form ref="form" :model="form" label-width="80px" :label-position="labelPosition">
           <panel title="基本资料" name="panel1">
             <el-form-item label="活动名称">
               <el-input v-model="form.name"></el-input>
@@ -112,10 +112,25 @@ export default {
       // document.body.scrollTop = anchor.offsetTop
     }
   },
+  computed: {
+    /**
+     * 表单label位置
+     */
+    labelPosition() {
+      return this.$device === 'mobile' ? 'top' : 'right'
+    }
+  }
 }
 </script>
 
 <style lang="scss">
+body.device-mobile {
+  // 手机模式下，表单label下边距
+  .el-form--label-top .el-form-item__label {
+    padding: 0;
+    line-height: 30px;
+  }
+}
 .form-container {
   margin-top: 20px;
   position: relative;

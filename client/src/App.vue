@@ -55,8 +55,8 @@ body {
   overflow: hidden;
 }
 body {
-  padding: 50px 0 0 0;
-  height: calc(100% - 50px);
+  //padding: 50px 0 0 0;
+  //height: calc(100% - 50px);
 }
 
 #app {
@@ -86,7 +86,7 @@ body.device-mobile {
 
 .layout-main {
   padding: 0;
-  margin-top: 0;
+  margin-top: 50px;
   height: 100%;
   min-height: auto;
   box-sizing: border-box;
@@ -111,7 +111,7 @@ body.device-mobile {
 }
 .layout-page-container {
   padding-bottom: 100px;
-  padding: 20px 30px 100px 30px;
+  padding: 20px 30px 80px 30px;
   transition: margin ease-in-out 0.2s;
   margin-left: 240px;
 }
@@ -122,9 +122,6 @@ body.device-mobile {
   }
 }
 
-.layout-container--main {
-  margin-left: 250px;
-}
 .layout__main {
   background-color: #f5f5f5;
   padding: 10px !important;
@@ -133,7 +130,7 @@ body.device-mobile {
 /** breadcrumb **/
 .el-breadcrumb {
   font-size: 12px !important;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 .el-breadcrumb__inner {
   color: #888;
@@ -148,7 +145,7 @@ body.device-mobile {
   height: 40px;
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   .title {
     font-size: 24px;
     font-weight: 400;

@@ -1,8 +1,7 @@
 <template>
   <el-header height="50px" class="layout-header">
-    <div class="app-logo">
-      <img class="icon" src="https://ergev2.tuxiaobei.com/manage/img/logo.93fa7efe.png" />
-      <div class="name">兔小贝儿歌</div>
+    <div class="layout-header__brand">
+      <brand></brand>
     </div>
 
     <div class="layout-header__tools">
@@ -41,8 +40,9 @@
 </template>
 
 <script>
+import Brand from '@/components/Brand.vue'
 export default {
-
+  components: { Brand }
 }
 </script>
 
@@ -73,22 +73,10 @@ export default {
       align-items: center;
     }
   }
-  .app-logo {
+  .layout-header__brand {
     height: 80px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     margin-right: auto;
-    .icon {
-      width: 30px;
-      height: 30px;
-    }
-    .name {
-      color: #2c3e50;
-      font-size: 20px;
-      font-weight: normal;
-      margin-left: 10px;
-    }
   }
 }
 .layout-header__popup {
