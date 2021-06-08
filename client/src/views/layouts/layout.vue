@@ -34,6 +34,14 @@ export default {
     onCollapseChange(isCollapse) {
       this.isCollapse = isCollapse
     }
+  },
+  computed: {
+    /**
+     * 如果是手机端，使用原生的滚动条样式(更细)
+     */
+    scrollbarNative() {
+      return this.$isMobile
+    }
   }
 }
 </script>

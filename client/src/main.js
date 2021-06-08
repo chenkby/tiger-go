@@ -20,6 +20,7 @@ app.use(router)
 
 // 可以通过配置size改变大小，如：size: 'medium'
 app.use(ElementPlus, { zIndex: 2000, locale })
-app.config.globalProperties.$device = detect().device.type || 'pc'
+app.config.globalProperties.$device = detect().device.type || 'pc' // 设备类型
+app.config.globalProperties.$isMobile = detect().device.type === 'mobile' // 是否手机端
 
 app.mount('#app')

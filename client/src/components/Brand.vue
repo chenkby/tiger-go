@@ -21,7 +21,7 @@ export default {
      * 点击时的链接地址
      */
     link: {
-      type: String,
+      type: [String, Boolean],
       default: '/'
     }
   },
@@ -32,11 +32,12 @@ export default {
   },
   methods: {
     goHome() {
-      this.$router.push(this.link)
+      if (this.link) {
+        this.$router.push(this.link)
+      }
     },
     onClick() {
-      console.log("aaa")
-      if (this.link !== '') {
+      if (this.link) {
         this.$router.push('/')
       }
     }

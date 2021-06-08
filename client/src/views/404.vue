@@ -11,10 +11,11 @@
 
 <script>
 import defaultImage from '@/assets/images/404.png'
+
 export default {
   data() {
     return {
-      defaultImage: defaultImage
+      defaultImage
     }
   },
   props: {

@@ -16,15 +16,8 @@ export default {
   mounted() {
     // 给body设置一个标识设备类型的class name
     document.getElementsByTagName('body')[0].className = `device-${this.$device}`
-  },
-  computed: {
-    /**
-     * 如果是手机端，使用原生的滚动条样式(更细)
-     */
-    scrollbarNative() {
-      return this.$device === 'mobile'
-    }
   }
+
 }
 
 // This starter template is using Vue 3 experimental <script setup> SFCs
@@ -72,7 +65,7 @@ body.device-mobile {
   }
   .layout-page-container {
     margin-left: 0;
-    padding: 20px $--mobile-padding 200px $--mobile-padding;
+    padding: 20px $--mobile-padding 120px $--mobile-padding;
   }
   .quick-nav {
     display: none;
@@ -85,8 +78,7 @@ body.device-mobile {
 }
 
 .layout-main {
-  padding: 0;
-  margin-top: 50px;
+  padding: 50px 0 0 0;
   height: 100%;
   min-height: auto;
   box-sizing: border-box;

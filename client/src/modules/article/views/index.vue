@@ -73,16 +73,15 @@
 
           <!-- </div> -->
 
-          <!-- <div class="grid-header__right"> -->
           <el-col :xl="12" class="grid-header__right">
             <el-button icon="el-icon-plus" type="success">添加内容</el-button>
           </el-col>
-          <!-- </div> -->
+
         </el-row>
       </div>
 
       <el-table :data="tableData" style="width: 100%" size="medium">
-        <el-table-column type="selection" width="55">
+        <el-table-column type="selection" width="44">
         </el-table-column>
         <el-table-column prop="date" label="日期" width="180">
         </el-table-column>
@@ -105,7 +104,28 @@
 
       <div class="grid-footer">
         <div class="grid-footer__left">
-
+          <div class="grid-footer__checkbox">
+            <el-checkbox></el-checkbox>
+          </div>
+          <div class="grid-footer__tools">
+            <el-button type="danger">删除</el-button>
+            <div class="item">
+              <el-dropdown>
+                <el-button>
+                  更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item>黄金糕</el-dropdown-item>
+                    <el-dropdown-item>狮子头</el-dropdown-item>
+                    <el-dropdown-item>螺蛳粉</el-dropdown-item>
+                    <el-dropdown-item>双皮奶</el-dropdown-item>
+                    <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+          </div>
         </div>
         <div class="grid-footer__right">
           <el-pagination background :page-size="100" :layout="paginationLayout" :total="1000">
@@ -246,6 +266,7 @@ export default {
     text-align: right;
   }
 }
+// 手机端
 body.device-mobile {
   .grid-header {
     .search-form {
@@ -261,12 +282,45 @@ body.device-mobile {
       margin-bottom: 20px;
     }
   }
+
+  .grid-footer {
+    display: block;
+    .grid-footer__left {
+    }
+    .grid-footer__tools {
+    }
+    .grid-footer__right {
+      text-align: center;
+    }
+    .el-pagination {
+      border-top: 1px solid #efefef;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+  }
 }
 .grid-footer {
-  padding: 20px 0 0 0;
+  padding: 15px 0;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .grid-footer__left {
+    display: flex;
+    align-items: center;
+    .grid-footer__checkbox {
+      padding: 0 14px;
+      text-align: center;
+    }
+    .grid-footer__tools {
+      padding-left: 10px;
+      display: flex;
+      align-items: center;
+      .item {
+        margin-left: 10px;
+      }
+    }
+  }
 
   .el-pagination {
     font-weight: normal;

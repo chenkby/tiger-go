@@ -2,7 +2,7 @@
   <div class="page-login">
     <div class="login-form">
       <div class="brand-container">
-        <brand></brand>
+        <brand :link="false"></brand>
       </div>
       <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="0">
         <el-form-item prop="username" class="username-item">
@@ -23,7 +23,7 @@
           </div> -->
         </div>
         <el-form-item>
-          <el-button type="primary" native-type="submit" class="submit" @click="submitForm('loginForm')">登录
+          <el-button type="primary" native-type="submit" class="submit" @click="submitForm">登录
           </el-button>
         </el-form-item>
       </el-form>
@@ -54,13 +54,13 @@ export default defineComponent({
       }
     }
   },
-  setup() {
-    const name = ref('aaa')
-    function test() {
-      console.log('这是测试方法')
-    }
-    return {
-      test
+  methods: {
+    submitForm() {
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          console.log('success')
+        }
+      })
     }
   }
 })
