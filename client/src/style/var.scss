@@ -13,5 +13,13 @@ $--color-danger: #f56c6c !default;
 /// color|1|Functional Color|1
 $--color-info: #909399 !default;
 
+//$--color-text-regular: #333; //全局文本颜色?
+
+$--tag-border-radius: 2px;
+
+$--checkbox-font-weight: normal;
+$--checkbox-border-radius: 1px;
+$--radio-font-weight: normal;
+
 /// 手机端时的页面边距
 $--mobile-padding: 15px;

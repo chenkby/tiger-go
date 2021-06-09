@@ -1,7 +1,7 @@
 <template>
   <div class="brand" :class="{cursor: this.link}">
     <img class="logo" src="https://ergev2.tuxiaobei.com/manage/img/logo.93fa7efe.png" @click="goHome" />
-    <div class="name" @click="goHome">{{name}}</div>
+    <div class="name" @click="goHome" :style="{color:color}">{{name}}</div>
   </div>
 </template>
 
@@ -12,6 +12,10 @@ export default {
   props: {
     logo: {
       type: String
+    },
+    color: {
+      type: String,
+      default: '#2c3e50'
     },
     name: {
       type: String,

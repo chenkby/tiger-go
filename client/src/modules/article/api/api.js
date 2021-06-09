@@ -4,7 +4,7 @@ export const createArticle = (data) => {}
 export default {
   list(queryParams) {
     return request.get('/article/list', {
-      params: queryParams,
+      params: queryParams
     })
   },
   // @Summary 添加文章
@@ -16,27 +16,27 @@ export default {
   // @Router /article/create [post]
   create(data, queryParams) {
     return request.post('/article/create', data, {
-      params: queryParams,
+      params: queryParams
     })
   },
   update(data, queryParams) {
     return request.post('/article/update', data, {
-      params: queryParams,
+      params: queryParams
     })
   },
   view(queryParams) {
     return request.get('/article/view', {
-      params: queryParams,
+      params: queryParams
     })
   },
   delete(data, queryParams) {
     return request.post('/article/delete', data, {
-      params: queryParams,
+      params: queryParams
     })
   },
   toggle(data, queryParams) {
     return request.post('/article/toggle', data, {
-      params: queryParams,
+      params: queryParams
     })
-  },
+  }
 }

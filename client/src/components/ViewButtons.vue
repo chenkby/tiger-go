@@ -1,11 +1,14 @@
 <template>
-  <div class="detail-view-buttons">
-    <slot name="default">
-      <el-button type="primary" plain icon="el-icon-back" @click="goBack">返回</el-button>
-      <slot name="append"></slot>
-    </slot>
+  <el-row class="detail-view-buttons">
+    <el-col :lg="8"></el-col>
+    <el-col :lg="16">
+      <slot name="default">
+        <el-button type="primary" plain icon="el-icon-back" @click="goBack">返回</el-button>
+        <slot name="append"></slot>
+      </slot>
+    </el-col>
 
-  </div>
+  </el-row>
 </template>
 
 <script>
@@ -25,6 +28,10 @@ export default {
 <style lang='scss'>
 .detail-view-buttons {
   padding: 30px 0 30px 0;
-  text-align: center;
+}
+body.device-mobile {
+  .detail-view-buttons {
+    text-align: center;
+  }
 }
 </style>

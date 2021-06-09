@@ -85,6 +85,7 @@
 </template>
 <script>
 import Panel from '../../../components/Panel.vue'
+
 export default {
   components: { Panel },
   data() {
@@ -97,8 +98,8 @@ export default {
         delivery: false,
         type: [],
         resource: '',
-        desc: '',
-      },
+        desc: ''
+      }
     }
   },
   methods: {
@@ -106,8 +107,8 @@ export default {
       console.log('submit!')
     },
     gotoAnchor(name) {
-      console.log("#" + name)
-      document.querySelector("#" + name).scrollIntoView(true)
+      console.log(`#${name}`)
+      document.querySelector(`#${name}`).scrollIntoView(true)
       // var anchor = document.querySelector('#' + name)
       // document.body.scrollTop = anchor.offsetTop
     }

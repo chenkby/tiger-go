@@ -1,7 +1,13 @@
 <template>
   <el-header height="50px" class="layout-header">
     <div class="layout-header__brand">
-      <brand></brand>
+      <template v-if="$isMobile">
+        <div class="nav-menu" @click="showMenu">
+          <tiger-icon icon="menu"></tiger-icon>
+        </div>
+        <div class="page-title">页面标题</div>
+      </template>
+      <brand v-else></brand>
     </div>
 
     <div class="layout-header__tools">
@@ -37,12 +43,33 @@
       </el-dropdown>
     </div>
   </el-header>
+
+  <!-- 移动端的侧边菜单 -->
+  <el-drawer title="导航菜单" :with-header="false" size="60%" v-model="menuStatus" direction="ltr" custom-class="nav-menu__drawer">
+    <div class="nav-menu__brand">
+      <brand color="#fff"></brand>
+    </div>
+    <nav-menu theme="drak"></nav-menu>
+  </el-drawer>
 </template>
 
 <script>
 import Brand from '@/components/Brand.vue'
+import TigerIcon from '@/components/TigerIcon.vue'
+import NavMenu from '@/components/NavMenu.vue'
+
 export default {
-  components: { Brand }
+  components: { Brand, TigerIcon, NavMenu },
+  data() {
+    return {
+      menuStatus: false
+    }
+  },
+  methods: {
+    showMenu() {
+      this.menuStatus = true
+    }
+  }
 }
 </script>
 
@@ -76,7 +103,47 @@ export default {
   .layout-header__brand {
     height: 80px;
     display: flex;
+    align-items: center;
     margin-right: auto;
+    .page-title {
+      margin-left: 10px;
+    }
+    .nav-menu {
+      display: none;
+    }
+  }
+}
+// 手机端
+body.device-mobile {
+  .layout-header {
+    padding: 0 $--mobile-padding 0 0;
+
+    .layout-header__brand {
+      .nav-menu {
+        width: 49px;
+        height: 49px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        background: #eee;
+        color: #333;
+        .tiger-icon {
+          width: 50%;
+          height: 50%;
+        }
+      }
+    }
+  }
+  // 菜单drawer背景色跟菜单背景色一致
+  .nav-menu__drawer {
+    background-color: #2f3447;
+  }
+  .nav-menu__brand {
+    color: #fff;
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
   }
 }
 .layout-header__popup {

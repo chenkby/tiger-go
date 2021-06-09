@@ -42,14 +42,9 @@ textarea {
 html,
 body {
   margin: 0;
-
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
-body {
-  //padding: 50px 0 0 0;
-  //height: calc(100% - 50px);
 }
 
 #app {
@@ -57,9 +52,6 @@ body {
 }
 // 手机端隐藏
 body.device-mobile {
-  .layout-header {
-    padding: 0 $--mobile-padding;
-  }
   .layout-sidebar {
     display: none;
   }
@@ -86,12 +78,6 @@ body.device-mobile {
 
 // 最小化侧边栏
 .layout-main.collapse {
-  .layout-sidebar {
-    width: 50px;
-  }
-  .layout-sidebar__collapse {
-    left: 50px;
-  }
   .layout-page-container {
     margin-left: 50px;
   }

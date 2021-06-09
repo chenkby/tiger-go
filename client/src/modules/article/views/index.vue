@@ -268,6 +268,9 @@ export default {
 }
 // 手机端
 body.device-mobile {
+  .page-header {
+    display: none;
+  }
   .grid-header {
     .search-form {
       .el-select {
