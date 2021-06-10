@@ -118,16 +118,4 @@ body.device-mobile {
   font-weight: normal;
   color: #333;
 }
-
-.page-header {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  .title {
-    font-size: 24px;
-    font-weight: 400;
-    color: #111;
-  }
-}
 </style>

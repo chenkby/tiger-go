@@ -24,67 +24,75 @@
         <el-breadcrumb-item>活动列表</el-breadcrumb-item>
         <el-breadcrumb-item>活动详情</el-breadcrumb-item>
       </el-breadcrumb>
-      <div class="page-header">
-        <div class="title">活动管理2</div>
-      </div>
+      <page-header title="活动管理">
+        <template #right>
+          <el-alert type="success" title="这是说明12312312323"></el-alert>
+        </template>
+      </page-header>
 
       <div class="grid-header">
         <!--query form-->
         <!-- <div class="grid-header__left"> -->
-        <el-row>
-          <el-col :lg="18" :xl="18">
-            <div class="grid-header__left">
-              <el-button type="primary"> 添加内容</el-button>
-              <el-form :inline="inlineForm" :model="formInline" class="search-form">
 
-                <el-form-item>
-                  <el-input placeholder="输入关键词" v-model="searchForm.keyword" suffix-icon="el-icon-search" clearable></el-input>
-                </el-form-item>
-                <el-form-item>
-                  <el-select placeholder="请选择状态">
-                  </el-select>
-                </el-form-item>
-                <el-form-item>
-                  <el-select placeholder="请选择状态">
-                  </el-select>
-                </el-form-item>
-                <!-- <el-form-item>
+        <div class="grid-header__left">
+          <!-- <el-button type="primary"> 添加内容</el-button> -->
+          <el-form :inline="inlineForm" :model="formInline" class="search-form">
+
+            <el-form-item>
+              <el-input placeholder="输入关键词" v-model="searchForm.keyword" prefix-icon="el-icon-search" clearable></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-select placeholder="请选择状态">
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-select placeholder="请选择状态">
+              </el-select>
+            </el-form-item>
+            <!-- <el-form-item>
                   <span @click="toggleMoreFilters" class="btn-more-filters">
                     更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
                   </span>
                 </el-form-item> -->
 
-                <el-collapse-transition>
-                  <div class="el-row" v-show="showMoreFilters">
-                    <div class="el-col el-col-24">
-                      <el-form-item>
-                        <el-input placeholder="这是第二行的搜索"></el-input>
-                      </el-form-item>
+            <el-collapse-transition>
+              <div class="el-row" v-show="showMoreFilters">
+                <div class="el-col el-col-24">
+                  <el-form-item>
+                    <el-input placeholder="这是第二行的搜索"></el-input>
+                  </el-form-item>
 
-                    </div>
-                  </div>
-                </el-collapse-transition>
-                <!-- <el-form-item class="form-buttons">
-                  <el-button type="primary">查询</el-button>
-                </el-form-item> -->
+                </div>
+              </div>
+            </el-collapse-transition>
+            <el-form-item class="form-buttons">
+              <el-button type="primary">查询</el-button>
+            </el-form-item>
 
-              </el-form>
-            </div>
-          </el-col>
-          <el-col :lg="6" :xl="6">
-            <div class="grid-header__right">
-              <el-button icon="el-icon-setting" circle></el-button>
-              <el-button icon="el-icon-bangzhu" circle></el-button>
-            </div>
-          </el-col>
+          </el-form>
+        </div>
 
-          <!-- </div> -->
+        <div class="grid-header__right">
+          <el-button type="success">添加内容</el-button>
+          <el-button-group style="margin-left:10px;">
+            <el-tooltip effect="light" transition="" :append-to-body="true" content="Top Left 提示文字" placement="top-end">
+              <el-button icon="el-icon-edit" style="height:40px;"></el-button>
+            </el-tooltip>
+            <el-tooltip effect="light" transition="" :append-to-body="true" content="刷新页面" placement="top-start">
+              <el-button icon="el-icon-share" style="height:40px;"></el-button>
+            </el-tooltip>
+            <el-tooltip effect="light" transition="" :append-to-body="true" content="导出数据" placement="top-end">
+              <el-button icon="el-icon-delete" style="height:40px;"></el-button>
+            </el-tooltip>
+          </el-button-group>
+        </div>
 
-          <!-- <el-col :xl="12" class="grid-header__right">
+        <!-- </div> -->
+
+        <!-- <el-col :xl="12" class="grid-header__right">
             <el-button icon="el-icon-plus" type="success">添加内容</el-button>
           </el-col> -->
 
-        </el-row>
       </div>
 
       <el-table :data="tableData" style="width: 100%" size="medium">
@@ -144,7 +152,9 @@
 </template>
 
 <script>
+import PageHeader from '@/components/PageHeader.vue'
 export default {
+  components: { PageHeader },
   data() {
     return {
       showMoreFilters: false,
@@ -262,9 +272,9 @@ export default {
   background-color: #fafafa;
 }
 .grid-header {
-  // display: flex;
-  // align-items: flex-start;
-  // justify-content: space-between;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 20px;
   .search-form {
     .btn-more-filters {
@@ -281,30 +291,33 @@ export default {
   .grid-header__left {
     display: flex;
     align-items: center;
-    .el-form {
-      margin-left: 10px;
-    }
+
     .el-form-item {
       margin-bottom: 0;
     }
   }
   .grid-header__right {
-    text-align: right;
-    justify-content: flex-end;
+    justify-content: space-between;
+    display: flex;
   }
 }
 // 手机端
 body.device-mobile {
-  .page-header {
-    display: none;
-  }
   .grid-header {
+    display: block;
     .search-form {
+      width: 100%;
       .el-select {
         width: 100%;
       }
       .form-buttons {
         text-align: center;
+      }
+    }
+    .grid-header__left {
+      margin-bottom: 20px;
+      .el-form-item {
+        margin-bottom: 15px;
       }
     }
     .grid-header__right {
