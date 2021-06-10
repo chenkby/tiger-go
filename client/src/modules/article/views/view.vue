@@ -10,7 +10,7 @@
       <div class="title">查看详情</div>
     </div>
     <descriptions title="标题" extra="right">
-      <descriptions-item label="用户名"> </descriptions-item>
+      <descriptions-item label="用户名">aaa</descriptions-item>
       <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
       <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
       <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
@@ -29,7 +29,7 @@
       <el-descriptions-item label="备注">
         <el-tag size="small">学校</el-tag>
       </el-descriptions-item>
-      <el-descriptions-item label="联系地址">江苏省苏州市梅州市三角镇东汇城D2写字楼吴中区吴中大道 1188 号</el-descriptions-item>
+      <el-descriptions-item label="联系地址">江苏省苏州市深圳市龙华新区民治街道办写字楼吴中区吴中大道 1188 号</el-descriptions-item>
     </descriptions>
 
     <view-buttons></view-buttons>

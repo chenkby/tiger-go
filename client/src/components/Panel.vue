@@ -1,5 +1,5 @@
 <template>
-  <div class="panel" :class="size" :id="name">
+  <div class="tiger-panel" :class="size" :id="name">
     <div class="panel-header">
       <div class="title">{{title}}</div>
       <slot class="right" name="right"></slot>
@@ -36,9 +36,9 @@ export default {
 </script>
 
 <style lang="scss">
-.panel {
+.tiger-panel {
   .panel-header {
-    padding: 30px 0;
+    padding: 0 0 30px 0;
     line-height: 1;
     align-items: center;
     display: flex;
@@ -54,5 +54,8 @@ export default {
       text-align: right;
     }
   }
+}
+.tiger-panel + .tiger-panel {
+  margin-top: 30px;
 }
 </style>

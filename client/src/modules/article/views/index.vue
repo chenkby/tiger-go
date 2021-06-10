@@ -32,50 +32,57 @@
         <!--query form-->
         <!-- <div class="grid-header__left"> -->
         <el-row>
-          <el-col :xl="12">
-            <el-form :inline="inlineForm" :model="formInline" class="search-form">
-              <el-row>
-                <el-col :xl="24">
-                  <el-form-item>
-                    <el-input placeholder="输入关键词" prefix-icon="el-icon-search" clearable></el-input>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-select placeholder="请选择状态">
-                    </el-select>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-select placeholder="请选择状态">
-                    </el-select>
-                  </el-form-item>
-                  <el-form-item class="form-buttons">
-                    <el-button type="primary">查询</el-button>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-form-item>
-                <span @click="toggleMoreFilters" class="btn-more-filters">
-                  更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
-                </span>
-              </el-form-item>
+          <el-col :lg="18" :xl="18">
+            <div class="grid-header__left">
+              <el-button type="primary"> 添加内容</el-button>
+              <el-form :inline="inlineForm" :model="formInline" class="search-form">
 
-              <el-collapse-transition>
-                <div class="el-row" v-show="showMoreFilters">
-                  <div class="el-col el-col-24">
-                    <el-form-item>
-                      <el-input placeholder="这是第二行的搜索"></el-input>
-                    </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="输入关键词" v-model="searchForm.keyword" suffix-icon="el-icon-search" clearable></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-select placeholder="请选择状态">
+                  </el-select>
+                </el-form-item>
+                <el-form-item>
+                  <el-select placeholder="请选择状态">
+                  </el-select>
+                </el-form-item>
+                <!-- <el-form-item>
+                  <span @click="toggleMoreFilters" class="btn-more-filters">
+                    更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                  </span>
+                </el-form-item> -->
 
+                <el-collapse-transition>
+                  <div class="el-row" v-show="showMoreFilters">
+                    <div class="el-col el-col-24">
+                      <el-form-item>
+                        <el-input placeholder="这是第二行的搜索"></el-input>
+                      </el-form-item>
+
+                    </div>
                   </div>
-                </div>
-              </el-collapse-transition>
-            </el-form>
+                </el-collapse-transition>
+                <!-- <el-form-item class="form-buttons">
+                  <el-button type="primary">查询</el-button>
+                </el-form-item> -->
+
+              </el-form>
+            </div>
+          </el-col>
+          <el-col :lg="6" :xl="6">
+            <div class="grid-header__right">
+              <el-button icon="el-icon-setting" circle></el-button>
+              <el-button icon="el-icon-bangzhu" circle></el-button>
+            </div>
           </el-col>
 
           <!-- </div> -->
 
-          <el-col :xl="12" class="grid-header__right">
+          <!-- <el-col :xl="12" class="grid-header__right">
             <el-button icon="el-icon-plus" type="success">添加内容</el-button>
-          </el-col>
+          </el-col> -->
 
         </el-row>
       </div>
@@ -83,9 +90,9 @@
       <el-table :data="tableData" style="width: 100%" size="medium">
         <el-table-column type="selection" width="44">
         </el-table-column>
-        <el-table-column prop="date" label="日期" width="180">
+        <el-table-column prop="date" label="日期" width="100">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
+        <el-table-column prop="name" label="姓名" width="100">
         </el-table-column>
         <el-table-column prop="address" label="地址">
         </el-table-column>
@@ -142,6 +149,10 @@ export default {
     return {
       showMoreFilters: false,
       loading: true,
+      searchForm: {
+        keyword: ''
+      },
+
       formInline: {
         user: '',
         region: ''
@@ -246,10 +257,15 @@ export default {
 </script>
 
 <style lang="scss">
+.el-table th,
+.el-table th.is-leaf {
+  background-color: #fafafa;
+}
 .grid-header {
   // display: flex;
   // align-items: flex-start;
   // justify-content: space-between;
+  margin-bottom: 20px;
   .search-form {
     .btn-more-filters {
       cursor: pointer;
@@ -262,8 +278,19 @@ export default {
       }
     }
   }
+  .grid-header__left {
+    display: flex;
+    align-items: center;
+    .el-form {
+      margin-left: 10px;
+    }
+    .el-form-item {
+      margin-bottom: 0;
+    }
+  }
   .grid-header__right {
     text-align: right;
+    justify-content: flex-end;
   }
 }
 // 手机端

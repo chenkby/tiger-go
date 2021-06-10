@@ -56,8 +56,12 @@ export default {
 }
 .el-descriptions__label {
   text-align: right !important;
+  color: #666;
   &.is-bordered-label {
     font-weight: normal;
   }
+}
+.el-descriptions__body {
+  color: #111;
 }
 </style>
