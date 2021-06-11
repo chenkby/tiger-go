@@ -88,10 +88,9 @@ body.device-mobile {
   box-sizing: border-box;
 }
 .layout-page-container {
-  padding-bottom: 100px;
-  padding: 20px 30px 80px 30px;
+  padding: 20px 30px 20px 30px;
   transition: margin ease-in-out 0.2s;
-  margin-left: 240px;
+  margin-left: $--sidebar-width;
 }
 
 .sidebar-menu {

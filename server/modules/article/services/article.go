@@ -48,7 +48,6 @@ type ArticleService struct{}
 //}
 
 func (s *ArticleService) FindOne(dest interface{}, condition interface{}) error {
-
 	err := dao.Article.Find(dest, condition).Error
 	return err
 }

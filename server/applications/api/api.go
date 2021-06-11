@@ -116,6 +116,9 @@ func main() {
 	}
 	router.LoadRoute(s)
 	s.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	s.NoRoute(func (c *gin.Context) {
+		fmt.Println("404")
+	})
 	err := s.Run(fmt.Sprintf("%s:%s", serverConfig["address"], serverConfig["port"]))
 
 	if err != nil {

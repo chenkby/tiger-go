@@ -36,19 +36,12 @@
 
         <div class="grid-header__left">
           <!-- <el-button type="primary"> 添加内容</el-button> -->
-          <el-form :inline="inlineForm" :model="formInline" class="search-form">
+          <el-form :inline="inlineForm" :model="searchForm" class="search-form">
 
             <el-form-item>
               <el-input placeholder="输入关键词" v-model="searchForm.keyword" prefix-icon="el-icon-search" clearable></el-input>
             </el-form-item>
-            <el-form-item>
-              <el-select placeholder="请选择状态">
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-select placeholder="请选择状态">
-              </el-select>
-            </el-form-item>
+
             <!-- <el-form-item>
                   <span @click="toggleMoreFilters" class="btn-more-filters">
                     更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
@@ -65,6 +58,11 @@
                 </div>
               </div>
             </el-collapse-transition>
+            <el-form-item>
+              <el-select v-model="searchForm.status" placeholder="请选择状态">
+              </el-select>
+            </el-form-item>
+
             <el-form-item class="form-buttons">
               <el-button type="primary">查询</el-button>
             </el-form-item>
@@ -73,8 +71,8 @@
         </div>
 
         <div class="grid-header__right">
-          <el-button type="success">添加内容</el-button>
-          <el-button-group style="margin-left:10px;">
+          <el-button type="success" icon="el-icon-plus">添加内容</el-button>
+          <!-- <el-button-group style="margin-left:10px;">
             <el-tooltip effect="light" transition="" :append-to-body="true" content="Top Left 提示文字" placement="top-end">
               <el-button icon="el-icon-edit" style="height:40px;"></el-button>
             </el-tooltip>
@@ -84,7 +82,7 @@
             <el-tooltip effect="light" transition="" :append-to-body="true" content="导出数据" placement="top-end">
               <el-button icon="el-icon-delete" style="height:40px;"></el-button>
             </el-tooltip>
-          </el-button-group>
+          </el-button-group> -->
         </div>
 
         <!-- </div> -->
@@ -96,9 +94,12 @@
       </div>
 
       <el-table :data="tableData" style="width: 100%" size="medium">
+        <template #empty>
+          <el-empty :image-size="100"></el-empty>
+        </template>
         <el-table-column type="selection" width="44">
         </el-table-column>
-        <el-table-column prop="date" label="日期" width="100">
+        <el-table-column prop="title" label="日期" width="100">
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="100">
         </el-table-column>
@@ -116,124 +117,52 @@
           <router-link :to="{path: '/article/view'}">查看</router-link>
         </el-table-column>
       </el-table>
+      <table-footer v-if="tableData.length > 0"></table-footer>
 
-      <div class="grid-footer">
-        <div class="grid-footer__left">
-          <div class="grid-footer__checkbox">
-            <el-checkbox></el-checkbox>
-          </div>
-          <div class="grid-footer__tools">
-            <el-button type="danger">删除</el-button>
-            <div class="item">
-              <el-dropdown>
-                <el-button>
-                  更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item>黄金糕</el-dropdown-item>
-                    <el-dropdown-item>狮子头</el-dropdown-item>
-                    <el-dropdown-item>螺蛳粉</el-dropdown-item>
-                    <el-dropdown-item>双皮奶</el-dropdown-item>
-                    <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-            </div>
-          </div>
-        </div>
-        <div class="grid-footer__right">
-          <el-pagination background :page-size="100" :layout="paginationLayout" :total="1000">
-          </el-pagination>
-        </div>
-      </div>
     </template>
   </el-skeleton>
 </template>
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
+import TableFooter from '@/components/table/TableFooter.vue'
+import { list } from '@/modules/article/api'
+import { ref } from '@vue/reactivity'
+
 export default {
-  components: { PageHeader },
+  components: { PageHeader, TableFooter },
+  setup() {
+
+    // 搜索
+    const searchForm = ref({
+      keyword: '',
+      status: ''
+    })
+
+    // 表格数据
+    const tableData = ref([])
+
+    const loading = ref(false)
+    const pagination = ref({})
+    const loadData = async () => {
+      const res = await list()
+      console.log(res.data)
+      tableData.value = res.data
+      pagination.value = res.pagination
+    }
+    loadData()
+
+    return {
+      searchForm,
+      tableData,
+      pagination,
+      loading
+    }
+  },
   data() {
     return {
       showMoreFilters: false,
-      loading: true,
-      searchForm: {
-        keyword: ''
-      },
-
-      formInline: {
-        user: '',
-        region: ''
-      },
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      value: '',
-
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      value: ''
     }
   },
   methods: {
@@ -241,21 +170,8 @@ export default {
       this.showMoreFilters = !this.showMoreFilters
     }
   },
-  created() {
-    setTimeout(() => {
-      this.loading = false
-    }, 300)
-  },
+
   computed: {
-    /**
-     * 分页器布局
-     */
-    paginationLayout() {
-      if (this.$device === 'mobile') {
-        return 'total, prev, next, jumper'
-      }
-      return 'total,sizes, prev, pager, next, jumper'
-    },
     /**
      * 搜索表单是否行内表单
      */
@@ -275,7 +191,7 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 20px;
+  //margin-bottom: 20px;
   .search-form {
     .btn-more-filters {
       cursor: pointer;
@@ -293,7 +209,7 @@ export default {
     align-items: center;
 
     .el-form-item {
-      margin-bottom: 0;
+      //margin-bottom: 0;
     }
   }
   .grid-header__right {
@@ -342,33 +258,7 @@ body.device-mobile {
     }
   }
 }
-.grid-footer {
-  padding: 15px 0;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  .grid-footer__left {
-    display: flex;
-    align-items: center;
-    .grid-footer__checkbox {
-      padding: 0 14px;
-      text-align: center;
-    }
-    .grid-footer__tools {
-      padding-left: 10px;
-      display: flex;
-      align-items: center;
-      .item {
-        margin-left: 10px;
-      }
-    }
-  }
-
-  .el-pagination {
-    font-weight: normal;
-  }
-}
 .el-table {
   color: #111;
 }

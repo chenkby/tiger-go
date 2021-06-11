@@ -32,12 +32,12 @@ export default {
 
 <style lang="scss">
 .layout-sidebar {
-  background-color: #f5f5f5;
+  background-color: #f9fafe;
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 240px;
+  width: $--sidebar-width;
   overflow-x: hidden;
   transition: width ease-in-out 0.2s;
 }
@@ -54,7 +54,7 @@ export default {
 .layout-sidebar__collapse {
   position: fixed;
   top: calc(50% - 32px);
-  left: 240px;
+  left: $--sidebar-width;
   z-index: 9999;
   padding: 0;
   border-width: 9px 0 9px 20px;

@@ -1,14 +1,29 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import'
-
-const { resolve } = require('path')
+import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
     host: '0.0.0.0',
-    open: '/'
+    open: '/',
+    proxy: {
+      // 字符串简写写法
+      '/foo': 'http://localhost:4567/foo',
+      // 选项写法
+      '/api': {
+        target: 'http://localhost:8081/v1/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      // 正则表达式写法
+      '^/fallback/.*': {
+        target: 'http://jsonplaceholder.typicode.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/fallback/, '')
+      }
+    }
   },
   resolve: {
     alias: {
