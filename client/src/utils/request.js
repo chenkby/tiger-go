@@ -26,7 +26,7 @@ import { ElMessage as Message } from 'element-plus'
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
-  timeout: 5000
+  timeout: 3000
 })
 // http request 拦截器
 request.interceptors.request.use(
@@ -46,6 +46,7 @@ request.interceptors.request.use(
   },
   (error) => {
     // closeLoading()
+    console.log('请求发生了错误', error)
     Message({
       showClose: true,
       message: error,
@@ -57,41 +58,52 @@ request.interceptors.request.use(
 // http response 拦截器
 request.interceptors.response.use(
   (response) => {
+    console.log('res', response)
+    // 如果设置了responseType，说明不是json，有可能是blob等，这种情况下不做处理
+    if (response.config.responseType) {
+      return response
+    }
     // closeLoading()
 
     // if (response.headers['new-token']) {
     //   store.commit('user/setToken', response.headers['new-token'])
     // }
-    if (response.data.err_code === 0) {
-      if (response.data.data?.needInit) {
+    return new Promise((resolve, reject) => {
+      if (response.data.hasOwnProperty('err_code')) {
+        if (response.data.err_code === 0) {
+          return resolve(response.data)
+        } else {
+          //errorHandle(res.data.err_code, res.data)
+          Message({
+            showClose: true,
+            message: response.data.err_msg,
+            type: 'error'
+          })
+          return resolve(response.data)
+        }
+      } else {
         Message({
-          type: 'info',
-          message: '您是第一次使用，请初始化'
+          showClose: true,
+          message: '请求发生了错误',
+          type: 'error'
         })
-        // store.commit('user/NeedInit')
-        // router.push({ name: 'init' })
+        resolve(response.data)
       }
-    }
-    if (response.data.err_code === 0) {
-      return response.data
-    }
-    Message({
-      showClose: true,
-      message: response.data.msg || decodeURI(response.headers.msg),
-      type: response.headers.msgtype || 'error'
     })
-    // if (response.data.data && response.data.data.reload) {
-    //   store.commit('user/LoginOut')
-    // }
-    return response.data.msg ? response.data : response
   },
   (error) => {
-    // closeLoading()
-    Message({
-      showClose: true,
-      message: error,
-      type: 'error'
-    })
+    const { response } = error
+    // 请求已发出，但是不在2xx的范围
+    if (response) {
+    } else {
+      // 断网或者超时
+      // @todo 重试N次
+      Message({
+        showClose: true,
+        message: '请求失败，请检查你的网络状态',
+        type: 'error'
+      })
+    }
     return error
   }
 )

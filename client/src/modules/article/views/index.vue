@@ -117,7 +117,7 @@
           <router-link :to="{path: '/article/view'}">查看</router-link>
         </el-table-column>
       </el-table>
-      <table-footer v-if="tableData.length > 0"></table-footer>
+      <table-footer v-if="tableData"></table-footer>
 
     </template>
   </el-skeleton>
@@ -139,18 +139,21 @@ export default {
       status: ''
     })
 
+    console.log(searchForm, searchForm.value)
     // 表格数据
     const tableData = ref([])
 
-    const loading = ref(false)
+    const loading = ref(true)
     const pagination = ref({})
     const loadData = async () => {
-      const res = await list()
-      console.log(res.data)
+      const res = await list(searchForm.value)
+      loading.value = false
+      console.log('我执行到了这里', res.data)
       tableData.value = res.data
       pagination.value = res.pagination
     }
     loadData()
+
 
     return {
       searchForm,
