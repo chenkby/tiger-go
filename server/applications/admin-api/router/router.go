@@ -16,6 +16,6 @@ func Load(r *gin.Engine) {
 		group.POST("/update", v1.Article.Update)
 		group.GET("/view", v1.Article.View)
 		group.POST("/toggle", v1.Article.Toggle)
-		group.GET("/delete", v1.Article.Delete)
+		group.POST("/delete", v1.Article.Delete)
 	}
 }

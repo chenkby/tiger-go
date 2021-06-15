@@ -16,7 +16,7 @@ func LoadRoute(r *gin.Engine) {
 		group.GET("/list", v1.Article.List)
 		group.POST("/create", v1.Article.Create)
 		group.POST("/update", v1.Article.Update)
-		group.GET("/delete", v1.Article.Delete)
+		group.POST("/delete", v1.Article.Delete)
 		group.GET("/view", v1.Article.View)
 		group.POST("/toggle", v1.Article.Toggle)
 	}

@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import store from './store'
 // router
 import ElementPlus from 'element-plus'
 import './style/element-variables.scss'
@@ -22,5 +23,5 @@ app.use(router)
 app.use(ElementPlus, { zIndex: 2000, locale })
 app.config.globalProperties.$device = detect().device.type || 'pc' // 设备类型
 app.config.globalProperties.$isMobile = detect().device.type === 'mobile' // 是否手机端
-
+app.use(store)
 app.mount('#app')

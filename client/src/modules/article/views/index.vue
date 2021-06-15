@@ -36,7 +36,7 @@
 
         <div class="grid-header__left">
           <!-- <el-button type="primary"> 添加内容</el-button> -->
-          <el-form :inline="inlineForm" :model="searchForm" class="search-form">
+          <el-form :inline="inlineForm" :model="searchForm" class="search-form" @submit.prevent>
 
             <el-form-item>
               <el-input placeholder="输入关键词" v-model="searchForm.keyword" prefix-icon="el-icon-search" clearable></el-input>
@@ -64,7 +64,7 @@
             </el-form-item>
 
             <el-form-item class="form-buttons">
-              <el-button type="primary">查询</el-button>
+              <el-button type="primary" native-type="submit" @click="onSubmitQueryForm">查询</el-button>
             </el-form-item>
 
           </el-form>
@@ -106,18 +106,21 @@
         <el-table-column prop="address" label="地址">
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="150" class-name="action-column">
-          <router-link :to="{path: '/article/create'}">编辑</router-link>
-          <el-divider direction="vertical"></el-divider>
-          <el-popconfirm placement="top-start" confirmButtonText='删除' confirmButtonType="danger" icon="el-icon-info" iconColor="red" title="确定要删除这条数据吗？">
-            <template #reference>
-              <span>删除</span>
-            </template>
-          </el-popconfirm>
-          <el-divider direction="vertical"></el-divider>
-          <router-link :to="{path: '/article/view'}">查看</router-link>
+          <template #default="scope">
+            <router-link :to="{path: '/article/create'}">编辑</router-link>
+            <el-divider direction="vertical"></el-divider>
+            <el-popconfirm placement="top-start" @confirm="onConfirmDelete(scope.row)" confirmButtonText='删除' confirmButtonType="danger" icon="el-icon-info" iconColor="red" title="确定要删除这条数据吗？">
+              <template #reference>
+                <span>删除</span>
+              </template>
+            </el-popconfirm>
+            <el-divider direction="vertical"></el-divider>
+
+            <router-link :to="{path: '/article/view', query:{id:scope.row.article_id}}">查看</router-link>
+          </template>
         </el-table-column>
       </el-table>
-      <table-footer v-if="tableData"></table-footer>
+      <table-footer v-if="tableData" :pagination="pagination" @current-change="onCurrentChange"></table-footer>
 
     </template>
   </el-skeleton>
@@ -126,40 +129,69 @@
 <script>
 import PageHeader from '@/components/PageHeader.vue'
 import TableFooter from '@/components/table/TableFooter.vue'
-import { list } from '@/modules/article/api'
+import { getArticleList, deleteArticle } from '@/modules/article/api'
 import { ref } from '@vue/reactivity'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 
 export default {
   components: { PageHeader, TableFooter },
   setup() {
-
+    const store = useStore()
+    const route = useRoute()
     // 搜索
     const searchForm = ref({
       keyword: '',
       status: ''
     })
 
-    console.log(searchForm, searchForm.value)
+    // 提交搜索
+    const onSubmitQueryForm = () => {
+      loadData()
+    }
+
     // 表格数据
     const tableData = ref([])
 
     const loading = ref(true)
     const pagination = ref({})
-    const loadData = async () => {
-      const res = await list(searchForm.value)
+    const currentPath = route.path
+
+
+    const loadData = async (page) => {
+      const queryParams = searchForm.value || {}
+      queryParams.page = page || pagination.currentPage
+      queryParams.pageSize = store.state.table.pageSize[currentPath] || pagination.pageSize || 10
+      const res = await getArticleList(queryParams)
       loading.value = false
-      console.log('我执行到了这里', res.data)
       tableData.value = res.data
       pagination.value = res.pagination
     }
+
     loadData()
+
+    // 表格操作
+    const onConfirmDelete = async (row) => {
+      const res = deleteArticle({ ids: row.article_id })
+      console.log(res)
+    }
+
+    // 分页器事件
+    const onCurrentChange = (page) => {
+      loadData(page)
+    }
 
 
     return {
       searchForm,
+      onSubmitQueryForm,
+
       tableData,
       pagination,
-      loading
+      loading,
+      onCurrentChange,
+
+      onConfirmDelete
     }
   },
   data() {

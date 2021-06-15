@@ -28,7 +28,7 @@
     </div>
     <div class="grid-footer__right">
       <slot name="right">
-        <el-pagination background :page-size="100" :layout="paginationLayout" :total="1000">
+        <el-pagination background :page-size="pagination.pageSize" :layout="paginationLayout" :total="pagination.totalCount" @size-change="onSizeChange" @current-change="onCurrentChange">
         </el-pagination>
       </slot>
     </div>
@@ -47,24 +47,49 @@ export default {
       default: true
     },
     /**
-     * 是否显示分页
+     * 分页器
      */
     pagination: {
-      type: Boolean,
-      default: true
+      type: Object,
+      default() {
+        return {
+          currentPage: 1,
+          pageCount: 0,
+          pageSize: 10,
+          totalCount: 0
+        }
+      }
     }
   },
   setup(props, context) {
   },
   computed: {
     /**
- * 分页器布局
- */
+     * 分页布局
+     */
     paginationLayout() {
       if (this.$device === 'mobile') {
         return 'total, prev, next, jumper'
       }
       return 'total,sizes, prev, pager, next, jumper'
+    }
+  },
+  methods: {
+    /**
+     * 页码改变时触发
+     */
+    onSizeChange(pageSize) {
+      this.$store.dispatch('setPageSize', {
+        path: this.$route.path,
+        pageSize: pageSize
+      })
+      this.$emit('size-change', pageSize)
+    },
+    /**
+     * 当前页改变时触发
+     */
+    onCurrentChange(page) {
+      this.$emit('current-change', page)
     }
   }
 }

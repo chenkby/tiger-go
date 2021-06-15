@@ -54,14 +54,21 @@ export default {
 .tiger-descriptions + .tiger-descriptions {
   margin-top: 30px;
 }
+
 .el-descriptions__label {
   text-align: right !important;
   color: #666;
+  min-width: 150px;
+  margin-right: 20px;
+  display: inline-block;
   &.is-bordered-label {
     font-weight: normal;
   }
 }
 .el-descriptions__body {
   color: #111;
+}
+.el-descriptions__content {
+  color: #000;
 }
 </style>

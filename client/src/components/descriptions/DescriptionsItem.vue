@@ -1,7 +1,7 @@
 <template>
   <el-descriptions-item :span="span" :label="label">
 
-    <slot name="default">aaa</slot>
+    abcdefg
 
     <template #label>
       <slot name="label"></slot>
