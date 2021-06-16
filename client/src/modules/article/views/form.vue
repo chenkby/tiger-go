@@ -1,13 +1,5 @@
 <template>
-  <el-breadcrumb separator="/">
-    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-    <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-    <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-  </el-breadcrumb>
-  <div class="page-header">
-    <div class="title">添加内容</div>
-  </div>
+  <page-header title="添加活动"></page-header>
 
   <div class="form-container">
     <el-row>
@@ -85,10 +77,11 @@
   </div>
 </template>
 <script>
+import PageHeader from '@/components/PageHeader.vue'
 import Panel from '../../../components/Panel.vue'
 
 export default {
-  components: { Panel },
+  components: { PageHeader, Panel },
   data() {
     return {
       form: {

@@ -3,7 +3,7 @@
     <div class="grid-footer__left">
       <slot name="left">
         <div class="grid-footer__checkbox">
-          <el-checkbox></el-checkbox>
+          <el-checkbox @change="onSelectChange"></el-checkbox>
         </div>
         <div class="grid-footer__tools">
           <el-button type="danger" disabled>删除</el-button>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { ref, computed } from 'vue'
 export default {
   props: {
     /**
@@ -61,7 +61,18 @@ export default {
       }
     }
   },
-  setup(props, context) {
+  emits: ['selectChange'],
+  setup(props, { emit }) {
+    //const refTable = ref(null)
+    const onSelectChange = () => {
+      //console.log('测试', refTable)
+      //refTable.value.toggleAllSelection()
+      emit('selectChange')
+    }
+    return {
+      //refTable,
+      onSelectChange
+    }
   },
   computed: {
     /**
@@ -121,6 +132,25 @@ export default {
 
   .el-pagination {
     font-weight: normal;
+  }
+}
+
+// 手机端
+body.device-mobile {
+  .tiger-table-footer {
+    display: block;
+    .grid-footer__left {
+    }
+    .grid-footer__tools {
+    }
+    .grid-footer__right {
+      text-align: center;
+    }
+    .el-pagination {
+      border-top: 1px solid #efefef;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
   }
 }
 </style>

@@ -1,15 +1,7 @@
 <template>
   <el-skeleton :rows="10" animated :loading="loading" :throttle="500">
     <template #default>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-        <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-      </el-breadcrumb>
-      <div class="page-header">
-        <div class="title">查看详情</div>
-      </div>
+      <page-header title="查看详情"></page-header>
       <descriptions title="标题" extra="right">
         <el-descriptions-item label="用户名">aaa</el-descriptions-item>
         <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
@@ -41,10 +33,11 @@
 <script>
 import Descriptions from '@/components/descriptions/Descriptions.vue'
 import ViewButtons from '@/components/ViewButtons.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import { ref } from '@vue/reactivity'
 
 export default {
-  components: { Descriptions, ViewButtons },
+  components: { PageHeader, Descriptions, ViewButtons },
   setup() {
     const loading = ref(true)
     setTimeout(() => {
