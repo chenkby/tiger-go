@@ -21,9 +21,9 @@
         </div>
       </el-col>
       <el-col :lg="15">
-        <el-form ref="form" :model="form" label-width="80px" :label-position="labelPosition">
+        <el-form ref="form" :model="form" label-width="100px" :label-position="labelPosition">
           <panel title="基本资料" name="panel1">
-            <el-form-item label="活动名称">
+            <el-form-item label="活动名称：">
               <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="活动区域">
@@ -63,13 +63,10 @@
             </el-form-item>
           </panel>
 
-          <panel title="很长的内容" name="panel2">
-            <p style="height:800px">很长的内容</p>
-          </panel>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
-          </el-form-item>
+          <!-- <panel title="很长的内容" name="panel2">
+            <p style="height:100px">很长的内容</p>
+          </panel> -->
+          <form-buttons></form-buttons>
         </el-form>
       </el-col>
     </el-row>
@@ -77,11 +74,9 @@
   </div>
 </template>
 <script>
-import PageHeader from '@/components/PageHeader.vue'
-import Panel from '../../../components/Panel.vue'
+import formMixin from '@/common/mixins/form'
 
 export default {
-  components: { PageHeader, Panel },
   data() {
     return {
       form: {
@@ -95,6 +90,9 @@ export default {
         desc: ''
       }
     }
+  },
+  created() {
+    console.log(this.$route.query)
   },
   methods: {
     onSubmit() {
@@ -114,7 +112,8 @@ export default {
     labelPosition() {
       return this.$device === 'mobile' ? 'top' : 'right'
     }
-  }
+  },
+  mixins: [formMixin]
 }
 </script>
 
@@ -126,6 +125,7 @@ body.device-mobile {
     line-height: 30px;
   }
 }
+
 .form-container {
   margin-top: 20px;
   position: relative;

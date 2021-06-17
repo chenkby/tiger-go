@@ -6,6 +6,7 @@ module.exports = {
   },
   plugins: ['vue'],
   rules: {
+    camelcase: [0, { properties: 'never' }],
     // 自己写一些想配置的规则
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // 生产环境禁用consele
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // 生产环境禁用debugger
@@ -19,7 +20,6 @@ module.exports = {
     'no-shadow': ['error', { allow: ['state'] }], // 允许对其进行阴影处理
     'import/prefer-default-export': 'off', // 模块只输出一个变量时，是否需要添加default
     'no-plusplus': 'off', // 一元运算符
-    camelcase: 2, // 强制驼峰法命名
     'no-extra-semi': 2, // 禁止多余的冒号
     semi: [2, 'never'],
     'no-unused-vars': 'off',

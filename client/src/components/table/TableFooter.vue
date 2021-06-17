@@ -63,15 +63,16 @@ export default {
   },
   emits: ['selectChange'],
   setup(props, { emit }) {
-    //const refTable = ref(null)
-    const onSelectChange = () => {
-      //console.log('测试', refTable)
-      //refTable.value.toggleAllSelection()
-      emit('selectChange')
-    }
+    // const refTable = ref()
+    // const onSelectChange = () => {
+    //   //console.log('测试', refTable)
+    //   //refTable.value.toggleAllSelection()
+    //   console.log('aaaaa', refTable.value)
+    //   //emit('selectChange')
+    // }
     return {
       //refTable,
-      onSelectChange
+      //onSelectChange
     }
   },
   computed: {
@@ -86,6 +87,9 @@ export default {
     }
   },
   methods: {
+    onSelectChange() {
+      console.log('K', this.$refs)
+    },
     /**
      * 页码改变时触发
      */

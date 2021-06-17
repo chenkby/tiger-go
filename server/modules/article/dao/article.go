@@ -31,7 +31,7 @@ type dao struct {
 //}
 
 var Article = &db.DB{
-	DB:         tiger.Db().Table("article"),
+	DB:         tiger.Db().Table("article").Session(&gorm.Session{}),
 	PrimaryKey: "article_id",
 }
 

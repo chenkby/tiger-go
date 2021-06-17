@@ -17,6 +17,10 @@ const routes = [
         component: () => import('@/modules/article/views/form.vue')
       },
       {
+        path: '/article/update',
+        component: () => import('@/modules/article/views/form.vue')
+      },
+      {
         path: '/article/view',
         component: () => import('@/modules/article/views/view.vue')
       }

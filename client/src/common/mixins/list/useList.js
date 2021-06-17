@@ -1,6 +1,10 @@
-import { getCurrentInstance, ref, computed } from 'vue'
+/**
+ * 列表页逻辑
+ */
+import { getCurrentInstance, ref, computed, provide } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import emitter from 'tiny-emitter/instance'
 
 export default function (getListApi, deleteApi) {
   const { ctx } = getCurrentInstance()
@@ -14,7 +18,6 @@ export default function (getListApi, deleteApi) {
 
   // 提交搜索
   const onSearch = () => {
-    console.log('来了', searchForm.value)
     loadData()
   }
 
@@ -33,6 +36,7 @@ export default function (getListApi, deleteApi) {
     queryParams.pageSize =
       store.state.table.pageSize[currentPath] || pagination.value.pageSize || 10
     const res = await getListApi(queryParams)
+    emitter.emit('loadDataComplate')
     loading.value = false
     tableData.value = res.data
     pagination.value = res.pagination
@@ -42,9 +46,24 @@ export default function (getListApi, deleteApi) {
    * 确认删除单行数据
    * @param {*} row 同table中的scope.row
    */
-  const onConfirmDelete = async (row) => {
-    const res = deleteApi({ ids: row.article_id })
-    console.log(res)
+  const onDelete = async (ids) => {
+    const { err_code, data } = await deleteApi({ ids: ids })
+    if (err_code === 0) {
+      if (data > 0) {
+        ctx.$message.success(`成功删除${data}条数据`)
+        loadData(1)
+      } else {
+        ctx.$message.warning('没有删除数据')
+      }
+    }
+  }
+
+  const onUpdate = (row) => {
+    ctx.$router.push({
+      append: true,
+      path: 'update',
+      query: { id: row['article_id'] }
+    })
   }
 
   /**
@@ -56,14 +75,10 @@ export default function (getListApi, deleteApi) {
   }
   const refTable = ref(null)
   const onSelectChange = () => {
-    console.log(refTable, refTable.value)
     refTable.value.toggleAllSelection()
   }
 
   loadData()
-
-  // 根据设备判断搜索表单是否行内表单
-  const inlineForm = computed(() => !ctx.$isMobile)
 
   return {
     searchForm,
@@ -72,10 +87,10 @@ export default function (getListApi, deleteApi) {
     tableData,
     pagination,
     loading,
-    inlineForm,
 
     onCurrentChange,
-    onConfirmDelete,
+    onUpdate,
+    onDelete,
     onSelectChange
   }
 }

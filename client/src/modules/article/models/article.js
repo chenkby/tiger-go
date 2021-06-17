@@ -14,7 +14,7 @@ const labels = {
   mp_url: '公众号链接',
   type: '活动类型',
   channels: '显示的渠道',
-  enable_mina: '是否跳转小程序',
+  enable_mina: '是否跳转小程序'
 }
 
 const rules = {
@@ -24,8 +24,8 @@ const rules = {
       required: true,
       max: 50,
       whitespace: true,
-      fullField: labels.name,
-    },
+      fullField: labels.name
+    }
   ],
   image: [
     {
@@ -33,16 +33,16 @@ const rules = {
       required: true,
       max: 255,
       whitespace: true,
-      fullField: labels.image,
-    },
+      fullField: labels.image
+    }
   ],
   in_app: [
     {
       type: 'array',
       required: true,
       whitespace: true,
-      fullField: labels.in_app,
-    },
+      fullField: labels.in_app
+    }
   ],
   show_rule: [
     {
@@ -50,8 +50,8 @@ const rules = {
       required: true,
       max: 30,
       whitespace: true,
-      fullField: labels.show_rule,
-    },
+      fullField: labels.show_rule
+    }
   ],
   link_page: [
     {
@@ -59,8 +59,8 @@ const rules = {
       required: true,
       max: 50,
       whitespace: true,
-      fullField: labels.link_page,
-    },
+      fullField: labels.link_page
+    }
   ],
   type: [
     {
@@ -68,14 +68,14 @@ const rules = {
       required: true,
       max: 50,
       whitespace: true,
-      fullField: labels.type,
-    },
+      fullField: labels.type
+    }
   ],
   status: [
-    { type: 'integer', required: true, min: 0, fullField: labels.status },
+    { type: 'integer', required: true, min: 0, fullField: labels.status }
   ],
   enable_mina: [
-    { type: 'integer', required: true, min: 0, fullField: labels.enable_mina },
+    { type: 'integer', required: true, min: 0, fullField: labels.enable_mina }
   ],
   rank: [{ type: 'integer', required: true, min: 0, fullField: labels.rank }],
   link_url: [
@@ -84,21 +84,21 @@ const rules = {
       required: true,
       max: 255,
       whitespace: true,
-      fullField: labels.link_url,
-    },
+      fullField: labels.link_url
+    }
   ],
   mp_url: [
-    { type: 'string', max: 255, whitespace: true, fullField: labels.mp_url },
-  ],
+    { type: 'string', max: 255, whitespace: true, fullField: labels.mp_url }
+  ]
 }
 
 const linkType = [
   { label: '小程序', value: 'mina' },
-  { label: '邀请活动', value: 'invite' },
+  { label: '邀请活动', value: 'invite' }
 ]
 
 const hints = {
-  rank: '数字越大排得越前面',
+  rank: '数字越大排得越前面'
 }
 
 export { rules, labels, hints, linkType }

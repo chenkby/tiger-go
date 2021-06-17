@@ -6,9 +6,9 @@
           <el-form-item>
             <el-input :placeholder="placeholder" prefix-icon="el-icon-search" clearable v-model="keyword" @input="onKeywordInput">
               <slot name="inputPrefix">
-                <div>
+                <!-- <div>
                   <template #prepend>aaa</template>
-                </div>
+                </div> -->
               </slot>
 
             </el-input>
@@ -32,7 +32,7 @@
           </el-collapse-transition> -->
           <slot name="filters"></slot>
           <el-form-item class="form-buttons">
-            <el-button type="primary" native-type="submit" @click="onSubmitQueryForm">查询</el-button>
+            <el-button type="primary" native-type="submit" @click="onSubmitQueryForm" :disabled="submitDisabled">查询</el-button>
           </el-form-item>
 
         </el-form>
@@ -61,7 +61,8 @@
 </template>
 
 <script>
-import { getCurrentInstance, ref, computed } from 'vue'
+import { getCurrentInstance, ref, computed, onMounted, onUnmounted } from 'vue'
+import emitter from 'tiny-emitter/instance'
 export default {
   props: {
     modelValue: String,
@@ -81,6 +82,18 @@ export default {
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
 
+    // 禁用查询按钮
+    const submitDisabled = ref(false)
+    onMounted(() => {
+      emitter.on('loadDataComplate', () => {
+        submitDisabled.value = false
+      })
+    })
+    onUnmounted(() => {
+      emitter.off('loadDataComplate')
+    })
+
+
     const keyword = ref('')
 
     // 输入框改变时
@@ -89,6 +102,7 @@ export default {
     }
     // 提交搜索
     const onSubmitQueryForm = () => {
+      submitDisabled.value = true
       emit('search')
     }
 
@@ -98,6 +112,7 @@ export default {
       inlineForm,
       keyword,
       onKeywordInput,
+      submitDisabled,
       onSubmitQueryForm
     }
   }

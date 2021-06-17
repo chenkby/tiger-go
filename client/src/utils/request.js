@@ -36,7 +36,7 @@ request.interceptors.request.use(
     // }
     // const token = store.getters['user/token']
     // const user = store.getters['user/userInfo']
-    config.data = JSON.stringify(config.data)
+    //config.data = JSON.stringify(config.data)
     config.headers = {
       'Content-Type': 'application/json'
       // 'x-token': token,

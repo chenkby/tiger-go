@@ -58,11 +58,27 @@ export default {
 .el-descriptions__label {
   text-align: right !important;
   color: #666;
-  min-width: 150px;
+  min-width: 50px;
   margin-right: 20px;
   display: inline-block;
   &.is-bordered-label {
     font-weight: normal;
+  }
+}
+.el-descriptions__title {
+  font-weight: 400;
+  color: #111;
+  font-size: 16px;
+  padding-left: 10px;
+
+  position: relative;
+  &:before {
+    content: '';
+    border-left: 3px solid $--color-primary;
+    position: absolute;
+    left: 0;
+    height: 70%;
+    top: 15%;
   }
 }
 .el-descriptions__body {
