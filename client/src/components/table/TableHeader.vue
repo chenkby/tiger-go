@@ -4,37 +4,36 @@
       <slot name="left">
         <el-form :inline="inlineForm" class="search-form" @submit.prevent>
           <el-form-item>
-            <el-input :placeholder="placeholder" prefix-icon="el-icon-search" clearable v-model="keyword" @input="onKeywordInput">
-              <slot name="inputPrefix">
-                <!-- <div>
-                  <template #prepend>aaa</template>
-                </div> -->
-              </slot>
-
+            <el-input class="keyword-input" :placeholder="placeholder" prefix-icon="el-icon-search" clearable v-model="keyword" @input="onKeywordInput">
+              <template #prepend v-if="enableInputPrepend">
+                <slot name="prepend"></slot>
+              </template>
             </el-input>
           </el-form-item>
 
-          <!-- <el-form-item>
-                  <span @click="toggleMoreFilters" class="btn-more-filters">
-                    更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
-                  </span>
-                </el-form-item> -->
-
-          <!-- <el-collapse-transition>
-            <div class="el-row" v-show="showMoreFilters">
-              <div class="el-col el-col-24">
-                <el-form-item>
-                  <el-input placeholder="这是第二行的搜索"></el-input>
-                </el-form-item>
-
-              </div>
-            </div>
-          </el-collapse-transition> -->
           <slot name="filters"></slot>
-          <el-form-item class="form-buttons">
-            <el-button type="primary" native-type="submit" @click="onSubmitQueryForm" :disabled="submitDisabled">查询</el-button>
-          </el-form-item>
+          <!-- 移动端更多筛选项 -->
+          <template v-if="$isMobile && showMoreFilters">
+            <slot name="moreFilters"></slot>
+          </template>
+          <!-- end -->
 
+          <el-form-item class="search-form_buttons">
+            <span class="space"></span>
+            <el-button type="primary" native-type="submit" @click="onSubmitQueryForm" :disabled="submitDisabled">查询</el-button>
+            <span class="btn-more-filters">
+              <a @click="toggleMoreFilters" v-if="enableMoreFilters">
+                更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+              </a>
+            </span>
+          </el-form-item>
+          <!-- PC端更多筛选项 -->
+          <el-collapse-transition>
+            <div v-if="!$isMobile && showMoreFilters">
+              <slot name="moreFilters"></slot>
+            </div>
+          </el-collapse-transition>
+          <!-- end -->
         </el-form>
       </slot>
     </div>
@@ -79,11 +78,21 @@ export default {
     'update:modelValue',
     'search'
   ],
-  setup(props, { emit }) {
+  setup(props, { attrs, slots, emit }) {
     const { ctx } = getCurrentInstance()
+
 
     // 禁用查询按钮
     const submitDisabled = ref(false)
+
+    const enableInputPrepend = slots.prepend && slots.prepend().length > 0  // input前面是否有内容
+    const enableMoreFilters = slots.moreFilters && slots.moreFilters().length > 0  // 根据slot内容判断是否使用了更多筛选
+    const showMoreFilters = ref(false)
+
+    const toggleMoreFilters = () => {
+      showMoreFilters.value = !showMoreFilters.value
+    }
+
     onMounted(() => {
       emitter.on('loadDataComplate', () => {
         submitDisabled.value = false
@@ -110,6 +119,10 @@ export default {
     const inlineForm = computed(() => !ctx.$isMobile)
     return {
       inlineForm,
+      enableInputPrepend,
+      enableMoreFilters,
+      showMoreFilters,
+      toggleMoreFilters,
       keyword,
       onKeywordInput,
       submitDisabled,
@@ -127,9 +140,23 @@ export default {
   justify-content: space-between;
   //margin-bottom: 20px;
   .search-form {
+    // input前置内容
+    .keyword-input {
+      .el-input-group__prepend {
+        background-color: #fff;
+        .el-input--suffix .el-input__inner {
+          padding-left: 15px;
+        }
+        .el-select .el-input {
+          width: 120px;
+        }
+      }
+    }
     .btn-more-filters {
       cursor: pointer;
       color: #666;
+      display: inline-block;
+      margin-left: 15px;
       &:hover {
         color: #222;
       }
@@ -161,8 +188,15 @@ body.device-mobile {
       .el-select {
         width: 100%;
       }
-      .form-buttons {
-        text-align: center;
+      .search-form_buttons {
+        .el-form-item__content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          span {
+            flex: 1;
+          }
+        }
       }
     }
     .tiger-table-header__left {

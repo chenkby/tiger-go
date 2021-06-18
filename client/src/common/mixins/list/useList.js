@@ -6,6 +6,56 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import emitter from 'tiny-emitter/instance'
 
+const useSearch = () => {
+  // 搜索model
+  const searchForm = ref({
+    keyword: ''
+  })
+  // 提交搜索
+  const onSearch = () => {
+    loadData()
+  }
+  return {
+    searchForm
+  }
+}
+
+const useLoad = () => {}
+
+/**
+ * 操作
+ * @param {*} ctx
+ * @returns
+ */
+const useTool = (ctx) => {
+  // 点击行编辑时触发
+  const onUpdate = (row) => {
+    ctx.$router.push({
+      append: true,
+      path: 'update',
+      query: { id: row['article_id'] }
+    })
+  }
+
+  /**
+   * 确认删除单行数据
+   * @param {*} row 同table中的scope.row
+   */
+  const onDelete = async (ids) => {
+    const { err_code, data } = await deleteApi({ ids: ids })
+    if (err_code === 0) {
+      if (data > 0) {
+        ctx.$message.success(`成功删除${data}条数据`)
+        loadData(1)
+      } else {
+        ctx.$message.warning('没有删除数据')
+      }
+    }
+  }
+  return {
+    onUpdate
+  }
+}
 export default function (getListApi, deleteApi) {
   const { ctx } = getCurrentInstance()
   const store = useStore()

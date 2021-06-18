@@ -1,9 +1,7 @@
 <template>
   <el-breadcrumb separator="/">
     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-    <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-    <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-    <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+    <el-breadcrumb-item :key="item.path" v-for="item in matched.slice(1, matched.length)">{{ item.meta.title }}</el-breadcrumb-item>
   </el-breadcrumb>
   <div class="page-header">
     <div class="page-header__left">
@@ -18,9 +16,15 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 export default {
   setup() {
-
+    const route = useRoute()
+    const matched = computed(() => route.matched)
+    return {
+      matched
+    }
   },
   props: {
     title: {

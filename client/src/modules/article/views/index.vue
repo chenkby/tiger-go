@@ -7,11 +7,8 @@
     </page-header>
 
     <table-header create-title="添加文章" v-model.trim="searchForm.keyword" @search="onSearch">
-      <template #inputPrefix>
-        <el-select v-model="searchForm.field" placeholder="搜索字段">
-          <el-option v-for="item in searchFields" :key="item.value" :label="item.label" :value="item.value">
-          </el-option>
-        </el-select>
+      <template #prepend>
+
       </template>
       <template #filters>
         <el-form-item>
@@ -19,11 +16,20 @@
           </el-select>
         </el-form-item>
       </template>
+
+      <template #moreFilters>
+        <el-form-item>
+          <el-input placeholder="这是第二行的搜索"></el-input>
+        </el-form-item>
+
+      </template>
     </table-header>
 
     <el-table :data="tableData" style="width: 100%" size="medium" ref="refTable">
       <template #empty>
-        <el-empty :image-size="100"></el-empty>
+        <el-empty :image-size="140">
+          <el-button type="primary" icon="el-icon-refresh">刷新</el-button>
+        </el-empty>
       </template>
       <el-table-column type="selection" width="44">
       </el-table-column>
@@ -79,5 +85,10 @@ export default {
 
 .el-table {
   color: #111;
+}
+.el-table__empty-text {
+  .el-empty__description p {
+    line-height: 1;
+  }
 }
 </style>

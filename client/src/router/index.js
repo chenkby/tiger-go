@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory
+} from 'vue-router'
 
 const Home = { template: '<div>Home</div>' }
 const About = { template: '<div>About</div>' }
@@ -36,11 +40,11 @@ const routes = [
 
 const router = createRouter({
   // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes, // `routes: routes` 的缩写
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      console.log(savedPosition)
+      console.log('savePosition', savedPosition)
       return savedPosition
     }
     return { left: 0, top: 0 }

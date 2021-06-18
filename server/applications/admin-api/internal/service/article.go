@@ -19,6 +19,10 @@ type articleService struct {
 
 func (s *articleService) List(ctx context.Context, req *define.ArticleListReq) (*define.ArticleListResp, error) {
 	query := dao.Article
+	// @todo 链式操作返回对象不为db.DB(bug)
+	if req.Keyword != "" {
+		query.Where("title = ?", req.Keyword)
+	}
 	provider := data.Provider{
 		Query:    query,
 		Page:     req.Page,

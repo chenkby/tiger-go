@@ -6,37 +6,41 @@
         <slot name="nav"></slot>
       </el-col>
       <el-col :lg="15">
+        <slot></slot>
       </el-col>
     </el-row>
-    <div class="page-content-body">
-      <slot></slot>
-      <slot name="footer"></slot>
-    </div>
+    <slot name="footer"></slot>
   </div>
 
   <form-dialog ref="dialog" :title="pageTitle" @open="onOpen" @closed="onClosed" v-else>
     <slot></slot>
-    <slot name="footer" slot="footer"></slot>
+    <slot name="footer"></slot>
 
   </form-dialog>
 
 </template>
 
 <script>
-import FormDialog from '@/components/Dialog'
-import PageHeader from "@/components/PageHeader"
-
+import FormDialog from '@/components/Dialog.vue'
+import PageHeader from "@/components/PageHeader.vue"
+import { inject } from 'vue'
 export default {
   name: "FormContainer",
   components: { PageHeader, FormDialog },
   props: {
-    dialogMode: {
-      type: Boolean,
-      default: true
+    labelWidth: {
+      type: String,
+      default: '100px'
     },
     pageTitle: {
       type: String,
       default: '标题'
+    }
+  },
+  setup() {
+    const dialogMode = inject('dialogMode', true)
+    return {
+      dialogMode
     }
   },
   methods: {
