@@ -3,10 +3,10 @@
     <div class="grid-footer__left">
       <slot name="left">
         <div class="grid-footer__checkbox">
-          <el-checkbox @change="onSelectChange"></el-checkbox>
+          <el-checkbox @change="onSelectChange" v-model="checked" :indeterminate="indeterminate"></el-checkbox>
         </div>
         <div class="grid-footer__tools">
-          <el-button type="danger" disabled>删除</el-button>
+          <el-button type="danger" :disabled="selection.length <= 0 " @click="onDelete">{{deleteText}}</el-button>
           <div class="item">
             <el-dropdown disabled>
               <el-button>
@@ -36,7 +36,10 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted, getCurrentInstance, inject } from 'vue'
+import emitter from 'tiny-emitter/instance'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 export default {
   props: {
     /**
@@ -47,7 +50,7 @@ export default {
       default: true
     },
     /**
-     * 分页器
+     * 分页器数据
      */
     pagination: {
       type: Object,
@@ -61,50 +64,87 @@ export default {
       }
     }
   },
-  emits: ['selectChange'],
   setup(props, { emit }) {
-    // const refTable = ref()
-    // const onSelectChange = () => {
-    //   //console.log('测试', refTable)
-    //   //refTable.value.toggleAllSelection()
-    //   console.log('aaaaa', refTable.value)
-    //   //emit('selectChange')
-    // }
-    return {
-      //refTable,
-      //onSelectChange
-    }
-  },
-  computed: {
+    const { ctx } = getCurrentInstance()
+    const store = useStore()
+    const route = useRoute()
+
+    const selection = ref([]) // 已选中数据项
+    const checked = ref(false)  // checkbox是否选中
+    const indeterminate = ref(false)  // checkbox是否显示不确定样式
+    const table = inject('refTable')  // 上级页面表格的引用
+
+
+    // 监听selectionChange，获得表格选择项
+    onMounted(() => {
+      // tableSelection:表格选中项
+      // dataLength:当前页总共有多少条数据
+      emitter.on('selectionChange', (tableSelection, dataLength) => {
+        selection.value = tableSelection
+        checked.value = tableSelection.length > 0
+        indeterminate.value = tableSelection.length > 0 ? tableSelection.length < dataLength : false
+      })
+    })
+    onUnmounted(() => {
+      emitter.off('selectionChange')
+    })
+
+    // 删除按钮的文本
+    const deleteText = computed(() => {
+      return selection.value.length > 0 ? '删除(' + selection.value.length + ')' : '删除'
+    })
+
+    // 分页布局
+    const paginationLayout = computed(() => ctx.$isMobile ? 'total, prev, next, jumper' : 'total,sizes, prev, pager, next, jumper')
+
     /**
-     * 分页布局
+     * 工具栏全选/取消全选
      */
-    paginationLayout() {
-      if (this.$device === 'mobile') {
-        return 'total, prev, next, jumper'
-      }
-      return 'total,sizes, prev, pager, next, jumper'
+    const onSelectChange = () => {
+      table.value.toggleAllSelection()
     }
-  },
-  methods: {
-    onSelectChange() {
-      console.log('K', this.$refs)
-    },
     /**
-     * 页码改变时触发
+     * 每页条数改变时触发
      */
-    onSizeChange(pageSize) {
-      this.$store.dispatch('setPageSize', {
-        path: this.$route.path,
+    const onSizeChange = (pageSize) => {
+      store.dispatch('setPageSize', {
+        path: route.path,
         pageSize: pageSize
       })
-      this.$emit('size-change', pageSize)
-    },
+      emit('size-change', pageSize)
+    }
     /**
-     * 当前页改变时触发
+     * 跳转页面时触发
      */
-    onCurrentChange(page) {
-      this.$emit('current-change', page)
+    const onCurrentChange = (page) => {
+      emit('current-change', page)
+    }
+
+    /**
+     * 点击删除按钮触发
+     */
+    const onDelete = () => {
+      ctx.$confirm(`确定要删除选中的${selection.value.length}条数据吗?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+
+      }).catch(() => {
+
+      })
+    }
+    return {
+      table,
+      selection,
+      checked,
+      indeterminate,
+      deleteText,
+      paginationLayout,
+      onSelectChange,
+      onSizeChange,
+      onCurrentChange,
+      onDelete
     }
   }
 }

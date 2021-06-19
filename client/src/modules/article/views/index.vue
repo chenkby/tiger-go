@@ -7,25 +7,24 @@
     </page-header>
 
     <table-header create-title="添加文章" v-model.trim="searchForm.keyword" @search="onSearch">
-      <template #prepend>
-
-      </template>
+      <!-- 插到关键词input输入框前面 -->
+      <template #prepend></template>
+      <!--插到input输入框后面-->
       <template #filters>
         <el-form-item>
           <el-select v-model="searchForm.status" placeholder="请选择状态">
           </el-select>
         </el-form-item>
       </template>
-
+      <!-- 第二行的搜索，如果有很多的筛选条件，可考虑使用频次较少的隐藏起来 -->
       <template #moreFilters>
         <el-form-item>
           <el-input placeholder="这是第二行的搜索"></el-input>
         </el-form-item>
-
       </template>
     </table-header>
 
-    <el-table :data="tableData" style="width: 100%" size="medium" ref="refTable">
+    <el-table :data="tableData" @selection-change="onSelectionChange" size="medium" ref="refTable">
       <template #empty>
         <el-empty :image-size="140">
           <el-button type="primary" icon="el-icon-refresh">刷新</el-button>
@@ -41,8 +40,8 @@
       </el-table-column>
       <action-column width="150px" @update="onUpdate" @delete="onDelete"></action-column>
     </el-table>
-    <table-footer v-if="tableData" @select-change="onSelectChange" :pagination="pagination" @current-change="onCurrentChange"></table-footer>
 
+    <table-footer v-if="tableData?.length > 0" :pagination="pagination" @current-change="onCurrentChange"></table-footer>
   </el-skeleton>
 </template>
 
@@ -51,6 +50,7 @@ import listMixin from '@/common/mixins/list'
 import useList from '@/common/mixins/list/useList'
 import { getArticleList, deleteArticle } from '@/modules/article/api'
 import { ref, onMounted, provide } from 'vue'
+
 export default {
   data() {
     return {
@@ -60,20 +60,12 @@ export default {
       ]
     }
   },
-  setup() {
-    const table = ref(null)
-    const abc = ref(null)
-    provide('primaryKey', 'article_id')
-    onMounted(() => {
-      // DOM元素将在初始渲染后分配给ref
-      console.log('tab', table.value, abc) // <div>这是根元素</div>
-    })
-    return useList(getArticleList, deleteArticle)
-  },
 
+  setup() {
+    return useList(getArticleList, deleteArticle, 'article_id', false)
+  },
   mixins: [listMixin]
 }
-
 
 </script>
 

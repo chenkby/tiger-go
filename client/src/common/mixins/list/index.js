@@ -1,5 +1,5 @@
 /**
- * 列表页的mixin，仅用于component引用
+ * 列表页的mixin，仅用于components引用
  */
 import PageHeader from '@/components/PageHeader.vue'
 import TableHeader from '@/components/table/TableHeader.vue'

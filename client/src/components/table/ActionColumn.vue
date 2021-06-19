@@ -3,7 +3,7 @@
     <template #default="scope">
       <span @click="onUpdate(scope.row)">编辑</span>
       <el-divider direction="vertical"></el-divider>
-      <el-popconfirm placement="top-start" @confirm="onDelete(scope.row)" confirmButtonText='删除' confirmButtonType="danger" icon="el-icon-info" iconColor="red" title="确定要删除这条数据吗？">
+      <el-popconfirm placement="top-start" @confirm="onDelete(scope.row)" confirmButtonText='删除' confirmButtonType="danger" icon="el-icon-info" title="确定要删除这条数据吗？">
         <template #reference>
           <span>删除</span>
         </template>
