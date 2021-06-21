@@ -53,8 +53,8 @@ const useDataOperate = (ctx, dialogMode, deleteApi, loadData) => {
    * 确认删除单行数据
    * @param {*} row 同table中的scope.row
    */
-  const onDelete = async (ids) => {
-    const { err_code, data } = await deleteApi({ ids: ids })
+  const onDelete = async (params) => {
+    const { err_code, data } = await deleteApi({ ids: params.ids })
     if (err_code === 0) {
       if (data > 0) {
         ctx.$message.success(`成功删除${data}条数据`)
@@ -67,6 +67,16 @@ const useDataOperate = (ctx, dialogMode, deleteApi, loadData) => {
   return {
     onUpdate,
     onDelete
+  }
+}
+
+const useToolbar = (loadData) => {
+  // 每页条数改变时重新加载数据
+  const onSizeChange = () => {
+    loadData(1)
+  }
+  return {
+    onSizeChange
   }
 }
 
@@ -86,10 +96,10 @@ const useTable = (tableData) => {
 }
 /**
  *
- * @param {*} getListApi 列表api
- * @param {*} deleteApi 删除api
- * @param {*} primaryKey 表主键名
- * @param {*} dialogMode 是否使用对话框模式
+ * @param {Promise} getListApi 列表api
+ * @param {Promise} deleteApi 删除api
+ * @param {String} primaryKey 表主键名
+ * @param {Boolean} dialogMode 是否使用对话框模式
  * @returns
  */
 export default function (getListApi, deleteApi, primaryKey, dialogMode) {
@@ -126,7 +136,9 @@ export default function (getListApi, deleteApi, primaryKey, dialogMode) {
     const queryParams = searchForm.value || {}
     queryParams.page = page || pagination.value.currentPage
     queryParams.pageSize =
-      store.state.table.pageSize[currentPath] || pagination.value.pageSize || 10
+      store.state.table.pageSize[currentPath] ||
+      pagination.value.pageSize ||
+      import.meta.env.VITE_DEFAULT_PAGESIZE
     const res = await getListApi(queryParams)
     emitter.emit('loadDataComplate')
     loading.value = false
@@ -155,6 +167,7 @@ export default function (getListApi, deleteApi, primaryKey, dialogMode) {
     loading,
 
     onCurrentChange,
+    ...useToolbar(loadData),
     ...useDataOperate(ctx, dialogMode, deleteApi, loadData)
   }
 }

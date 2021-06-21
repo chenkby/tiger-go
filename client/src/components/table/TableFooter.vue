@@ -6,7 +6,7 @@
           <el-checkbox @change="onSelectChange" v-model="checked" :indeterminate="indeterminate"></el-checkbox>
         </div>
         <div class="grid-footer__tools">
-          <el-button type="danger" :disabled="selection.length <= 0 " @click="onDelete">{{deleteText}}</el-button>
+          <el-button :disabled="selection.length <= 0 " @click="onDelete">{{deleteText}}</el-button>
           <div class="item">
             <el-dropdown disabled>
               <el-button>
@@ -69,10 +69,13 @@ export default {
     const store = useStore()
     const route = useRoute()
 
+    const primaryKey = inject("primaryKey")
+
     const selection = ref([]) // 已选中数据项
     const checked = ref(false)  // checkbox是否选中
     const indeterminate = ref(false)  // checkbox是否显示不确定样式
     const table = inject('refTable')  // 上级页面表格的引用
+    const selectionIds = ref([])  // 已选中数据主键值
 
 
     // 监听selectionChange，获得表格选择项
@@ -83,6 +86,9 @@ export default {
         selection.value = tableSelection
         checked.value = tableSelection.length > 0
         indeterminate.value = tableSelection.length > 0 ? tableSelection.length < dataLength : false
+        tableSelection.forEach((item) => {
+          selectionIds.value.push(item[primaryKey])
+        })
       })
     })
     onUnmounted(() => {
@@ -127,9 +133,10 @@ export default {
       ctx.$confirm(`确定要删除选中的${selection.value.length}条数据吗?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
+        buttonSize: 'medium'
       }).then(() => {
-
+        emit('delete', { ids: selectionIds.value })
       }).catch(() => {
 
       })

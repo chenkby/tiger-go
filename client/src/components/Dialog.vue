@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" v-model:visible="visible" :width="width" :destroy-on-close="true" :close-on-click-modal="closeOnClickModal" @open="onOpen" @close="onClose" @closed="onClosed">
+  <el-dialog :title="title" v-model="visible" :width="width" :destroy-on-close="true" :close-on-click-modal="closeOnClickModal" @open="onOpen" @close="onClose" @closed="onClosed">
     <slot></slot>
     <template v-slot:footer>
       <slot name="footer"></slot>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 export default {
   props: {
     title: {
@@ -24,7 +24,7 @@ export default {
       default: false
     }
   },
-  setep(props, { emit }) {
+  setup(props, { emit }) {
     const visible = ref(false)
 
     const open = () => {

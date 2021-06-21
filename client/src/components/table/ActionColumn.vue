@@ -33,7 +33,7 @@ export default {
     const primaryKey = inject('primaryKey', 'id')
 
     const onDelete = (row) => {
-      emit("delete", { id: row[primaryKey] })
+      emit("delete", { ids: [row[primaryKey]] })
     }
     const onUpdate = (row) => {
       emit('update', row)

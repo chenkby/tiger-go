@@ -6,7 +6,7 @@
   <!--非对话框模式-->
   <el-row v-else>
     <el-col :lg="3"></el-col>
-    <el-col :lg="15" class="form-buttons" :style="{'padding-left':indent}">
+    <el-col :lg="15" class="form-buttons" :style="{'padding-left':indentWidth}">
       <el-button v-if="showSubmit" type="primary" @click="onSubmit">{{submitTitle}}</el-button>
       <el-button v-if="showCancel" @click="onCancel">取消</el-button>
     </el-col>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { inject } from 'vue'
+import { computed, getCurrentInstance, inject } from 'vue'
 export default {
   props: {
     /**
@@ -48,6 +48,7 @@ export default {
     }
   },
   setup(props, { emit }) {
+    const { ctx } = getCurrentInstance()
     const dialogMode = inject('dialogMode', true)
     const onSubmit = () => {
       emit('submit')
@@ -55,7 +56,11 @@ export default {
     const onCancel = () => {
       emit('cancel')
     }
+
+    const indentWidth = computed(() => ctx.$isMobile ? 0 : props.indent)
     return {
+      dialogMode,
+      indentWidth,
       onSubmit,
       onCancel
     }
@@ -64,6 +69,9 @@ export default {
 </script>
 
 <style lang="scss">
+.form-buttons {
+  padding: 10px 0 32px 0;
+}
 body.device-mobile {
   .form-buttons {
     text-align: center;

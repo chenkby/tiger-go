@@ -41,7 +41,7 @@
       <action-column width="150px" @update="onUpdate" @delete="onDelete"></action-column>
     </el-table>
 
-    <table-footer v-if="tableData?.length > 0" :pagination="pagination" @current-change="onCurrentChange"></table-footer>
+    <table-footer v-if="tableData?.length > 0" :pagination="pagination" @current-change="onCurrentChange" @size-change="onSizeChange" @delete="onDelete"></table-footer>
   </el-skeleton>
 </template>
 
@@ -49,7 +49,6 @@
 import listMixin from '@/common/mixins/list'
 import useList from '@/common/mixins/list/useList'
 import { getArticleList, deleteArticle } from '@/modules/article/api'
-import { ref, onMounted, provide } from 'vue'
 
 export default {
   data() {
@@ -60,9 +59,11 @@ export default {
       ]
     }
   },
-
   setup() {
     return useList(getArticleList, deleteArticle, 'article_id', false)
+  },
+  methods: {
+
   },
   mixins: [listMixin]
 }

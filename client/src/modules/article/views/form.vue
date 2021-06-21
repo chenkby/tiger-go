@@ -1,15 +1,17 @@
 <template>
-  <form-container>
-    <el-form ref="form" :model="form" label-width="100px" :label-position="labelPosition">
-      <panel title="基本资料" name="panel1">
-        <el-form-item label="活动名称：">
+  <form-container :dialogMode="dialogMode">
+    <el-form ref="refForm" :model="form" :label-width="labelWidth" :rules="rules" :label-position="labelPosition" @validate="onValidate">
+      <panel title="基本资料" name="name">
+        <el-form-item prop="name" label="活动名称">
           <el-input v-model="form.name"></el-input>
+          <hint prop="name">名称不能少于20个字符</hint>
         </el-form-item>
         <el-form-item label="活动区域">
           <el-select v-model="form.region" placeholder="请选择活动区域">
             <el-option label="区域一" value="shanghai"></el-option>
             <el-option label="区域二" value="beijing"></el-option>
           </el-select>
+          <hint prop="aaa">这是段很长的代码，我来测试一下换行的时候效果会是怎么样的，如果不行，那我就给一个<el-link href="#">链接</el-link>试试</hint>
         </el-form-item>
         <el-form-item label="活动时间">
           <el-col :span="11">
@@ -120,11 +122,15 @@
 <script>
 import useForm from '@/common/mixins/form/useForm'
 import formMixin from '@/common/mixins/form'
-
+import emitter from 'tiny-emitter/instance'
+import { labels, rules, hints } from './../models/article'
+const dialogMode = false
 export default {
   data() {
     return {
       labelWidth: '100px',
+      dialogMode: dialogMode,
+      rules: rules,
       form: {
         name: '',
         region: '',
@@ -138,31 +144,18 @@ export default {
     }
   },
   setup() {
-    return useForm()
-  },
-  created() {
-    console.log(this.$route.query)
-  },
-  provide: {
-    dialogMode: false
+    return useForm(dialogMode)
   },
   methods: {
-    onSubmit() {
-      console.log('submit!')
+    onValidate(prop, isPass, errMessage) {
+      console.log(prop, isPass, errMessage)
+      emitter.emit(`onValidated:${prop}`, isPass)
     },
     gotoAnchor(name) {
       console.log(`#${name}`)
       document.querySelector(`#${name}`).scrollIntoView(true)
       // var anchor = document.querySelector('#' + name)
       // document.body.scrollTop = anchor.offsetTop
-    }
-  },
-  computed: {
-    /**
-     * 表单label位置
-     */
-    labelPosition() {
-      return this.$device === 'mobile' ? 'top' : 'right'
     }
   },
   mixins: [formMixin]

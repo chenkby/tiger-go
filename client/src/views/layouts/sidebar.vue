@@ -55,7 +55,7 @@ export default {
   position: fixed;
   top: calc(50% - 32px);
   left: $--sidebar-width;
-  z-index: 9999;
+  z-index: 99;
   padding: 0;
   border-width: 9px 0 9px 20px;
   border-color: transparent transparent transparent #ebebeb;
