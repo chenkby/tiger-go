@@ -87,8 +87,14 @@ const rules = {
       fullField: labels.link_url
     }
   ],
-  mp_url: [
-    { type: 'string', max: 255, whitespace: true, fullField: labels.mp_url }
+  desc: [
+    {
+      type: 'string',
+      required: true,
+      max: 255,
+      whitespace: true,
+      fullField: labels.mp_url
+    }
   ]
 }
 

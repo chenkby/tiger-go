@@ -1,5 +1,6 @@
 <template>
-  <div slot="footer" class="dialog-footer" v-if="dialogMode">
+  <!-- 对话框按钮 -->
+  <div class="dialog-form-buttons" v-if="dialogMode">
     <el-button @click="onCancel">取消</el-button>
     <el-button type="primary" @click="onSubmit">确定</el-button>
   </div>
@@ -50,9 +51,15 @@ export default {
   setup(props, { emit }) {
     const { ctx } = getCurrentInstance()
     const dialogMode = inject('dialogMode', true)
+    /**
+     * 点击提交表单按钮触发
+     */
     const onSubmit = () => {
       emit('submit')
     }
+    /**
+     * 点击取消按钮触发
+     */
     const onCancel = () => {
       emit('cancel')
     }
@@ -64,7 +71,8 @@ export default {
       onSubmit,
       onCancel
     }
-  }
+  },
+  emits: ['submit', 'cancel']
 }
 </script>
 

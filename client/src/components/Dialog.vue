@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" v-model="visible" :width="width" :destroy-on-close="true" :close-on-click-modal="closeOnClickModal" @open="onOpen" @close="onClose" @closed="onClosed">
+  <el-dialog custom-class="tiger-dialog" :title="title" v-model="visible" :width="width" :destroy-on-close="true" :close-on-click-modal="closeOnClickModal" @open="onOpen" @close="onClose" @closed="onClosed">
     <slot></slot>
     <template v-slot:footer>
       <slot name="footer"></slot>
@@ -58,3 +58,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.tiger-dialog {
+  .el-dialog__header {
+    background-color: #fafbfc;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  .el-dialog__headerbtn {
+    top: 15px;
+  }
+  .el-dialog__footer {
+    text-align: center;
+    background-color: #fafbfc;
+    padding-bottom: 10px;
+  }
+}
+</style>

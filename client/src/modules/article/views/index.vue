@@ -27,7 +27,7 @@
     <el-table :data="tableData" @selection-change="onSelectionChange" size="medium" ref="refTable">
       <template #empty>
         <el-empty :image-size="140">
-          <el-button type="primary" icon="el-icon-refresh">刷新</el-button>
+          <el-button type="primary" icon="el-icon-refresh" @click="refresh">刷新</el-button>
         </el-empty>
       </template>
       <el-table-column type="selection" width="44">
@@ -43,14 +43,20 @@
 
     <table-footer v-if="tableData?.length > 0" :pagination="pagination" @current-change="onCurrentChange" @size-change="onSizeChange" @delete="onDelete"></table-footer>
   </el-skeleton>
+  <form-dialog ref="refFormDialog" v-if="dialogMode"></form-dialog>
 </template>
 
 <script>
 import listMixin from '@/common/mixins/list'
 import useList from '@/common/mixins/list/useList'
 import { getArticleList, deleteArticle } from '@/modules/article/api'
-
+import FormDialog from './form.vue'
+/**
+ * 是否使用对话框模式
+ */
+const dialogMode = false
 export default {
+  components: { FormDialog },
   data() {
     return {
       searchFields: [
@@ -60,7 +66,7 @@ export default {
     }
   },
   setup() {
-    return useList(getArticleList, deleteArticle, 'article_id', false)
+    return useList(getArticleList, deleteArticle, 'article_id', dialogMode)
   },
   methods: {
 

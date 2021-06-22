@@ -36,10 +36,14 @@ const useLoad = () => {}
  * @returns
  */
 const useDataOperate = (ctx, dialogMode, deleteApi, loadData) => {
+  const refFormDialog = ref(null)
   // 点击行编辑时触发
   const onUpdate = (row) => {
     if (dialogMode) {
-      // @todo 打开对话框
+      refFormDialog.value.open({
+        id: row['article_id'],
+        model: JSON.parse(JSON.stringify(row))
+      })
     } else {
       ctx.$router.push({
         append: true,
@@ -65,6 +69,7 @@ const useDataOperate = (ctx, dialogMode, deleteApi, loadData) => {
     }
   }
   return {
+    refFormDialog,
     onUpdate,
     onDelete
   }
@@ -102,12 +107,15 @@ const useTable = (tableData) => {
  * @param {Boolean} dialogMode 是否使用对话框模式
  * @returns
  */
-export default function (getListApi, deleteApi, primaryKey, dialogMode) {
+export default function (getListApi, deleteApi, primaryKey, isDialogMode) {
   const { ctx } = getCurrentInstance()
   const store = useStore()
   const route = useRoute()
   // 引用el-table
   const refTable = ref(null)
+
+  // 如果是移动端，不使用对话框模式
+  const dialogMode = ctx.$isMobile ? false : isDialogMode
 
   provide('primaryKey', primaryKey) // 主键名
   provide('dialogMode', dialogMode) // 是否对话框模式
@@ -125,7 +133,10 @@ export default function (getListApi, deleteApi, primaryKey, dialogMode) {
 
   const tableData = ref([]) // 表格数据
   const loading = ref(true) // 是否加载数据中
-  const pagination = ref({}) // 分页配置
+  const pagination = ref({
+    currentPage: 1,
+    totalCount: 0
+  }) // 分页配置
   const currentPath = route.path // 当前路由，用于配置分页器里面的每页数据数量
 
   /**
@@ -134,16 +145,23 @@ export default function (getListApi, deleteApi, primaryKey, dialogMode) {
    */
   const loadData = async (page) => {
     const queryParams = searchForm.value || {}
-    queryParams.page = page || pagination.value.currentPage
+    queryParams.page = page || pagination.value?.currentPage || 1
     queryParams.pageSize =
       store.state.table.pageSize[currentPath] ||
-      pagination.value.pageSize ||
+      pagination.value?.pageSize ||
       import.meta.env.VITE_DEFAULT_PAGESIZE
     const res = await getListApi(queryParams)
     emitter.emit('loadDataComplate')
     loading.value = false
     tableData.value = res.data
     pagination.value = res.pagination
+  }
+
+  /**
+   * 刷新页面
+   */
+  const refresh = () => {
+    loadData()
   }
 
   /**
@@ -157,6 +175,7 @@ export default function (getListApi, deleteApi, primaryKey, dialogMode) {
   loadData()
 
   return {
+    dialogMode,
     ...useTable(tableData),
     refTable,
     searchForm,
@@ -167,6 +186,7 @@ export default function (getListApi, deleteApi, primaryKey, dialogMode) {
     loading,
 
     onCurrentChange,
+    refresh,
     ...useToolbar(loadData),
     ...useDataOperate(ctx, dialogMode, deleteApi, loadData)
   }

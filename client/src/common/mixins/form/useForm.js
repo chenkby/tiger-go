@@ -1,28 +1,54 @@
 import { useRoute } from 'vue-router'
 import { getCurrentInstance, ref, inject, computed, provide } from 'vue'
+import emitter from 'tiny-emitter/instance'
 
 const useForm = (refForm) => {
   const onSubmit = () => {
-    console.log('refForm', refForm)
     refForm.value.validate((valid) => {
       if (valid) {
         alert('submit!')
       } else {
-        console.log('error submit!!')
         return false
       }
     })
   }
+
+  const onValidate = (prop, isPass, errMessage) => {
+    emitter.emit(`onValidated:${prop}`, errMessage)
+  }
+
   return {
-    onSubmit
+    onSubmit,
+    onValidate
   }
 }
 
-export default function (dialogMode) {
+const useDialog = () => {
+  const formContainer = ref(null) // form-container引用
+  /**
+   * 打开表单对话框(主要供list使用)
+   * @param {*} params
+   */
+  const open = (params) => {
+    formContainer.value.open()
+  }
+  return {
+    formContainer,
+    open
+  }
+}
+
+export default function (isDialogMode, labels, hints) {
   const { ctx } = getCurrentInstance()
   const id = ref(ctx.$route.query.id || null)
   const loading = ref(false)
+
+  // 如果是移动端，不使用对话框模式
+  const dialogMode = ctx.$isMobile ? false : isDialogMode
+
   provide('dialogMode', dialogMode)
+  provide('labels', labels)
+  provide('hints', hints)
 
   const refForm = ref(null)
 
@@ -44,6 +70,7 @@ export default function (dialogMode) {
     dialogMode,
     labelPosition,
     onCancel,
-    ...useForm(refForm)
+    ...useForm(refForm),
+    ...useDialog()
   }
 }

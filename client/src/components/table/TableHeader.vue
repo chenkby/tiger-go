@@ -3,37 +3,46 @@
     <div class="tiger-table-header__left">
       <slot name="left">
         <el-form :inline="inlineForm" class="search-form" @submit.prevent>
-          <el-form-item>
-            <el-input class="keyword-input" :placeholder="placeholder" prefix-icon="el-icon-search" clearable v-model="keyword" @input="onKeywordInput">
-              <template #prepend v-if="enableInputPrepend">
-                <slot name="prepend"></slot>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item>
+                <el-input class="keyword-input" :placeholder="placeholder" prefix-icon="el-icon-search" clearable v-model="keyword" @input="onKeywordInput">
+                  <template #prepend v-if="enableInputPrepend">
+                    <slot name="prepend"></slot>
+                  </template>
+                </el-input>
+              </el-form-item>
+
+              <slot name="filters"></slot>
+              <!-- 移动端更多筛选项 -->
+              <template v-if="$isMobile && showMoreFilters">
+                <slot name="moreFilters"></slot>
               </template>
-            </el-input>
-          </el-form-item>
+              <!-- end -->
 
-          <slot name="filters"></slot>
-          <!-- 移动端更多筛选项 -->
-          <template v-if="$isMobile && showMoreFilters">
-            <slot name="moreFilters"></slot>
-          </template>
-          <!-- end -->
+              <!-- 搜索按钮 -->
+              <el-form-item class="search-form_buttons">
+                <span class="space"></span>
+                <el-button type="primary" native-type="submit" @click="onSubmitQueryForm" :disabled="submitDisabled">查询</el-button>
+                <span class=" btn-more-filters">
+                  <a @click="toggleMoreFilters" v-if="enableMoreFilters">
+                    更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                  </a>
+                </span>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-          <el-form-item class="search-form_buttons">
-            <span class="space"></span>
-            <el-button type="primary" native-type="submit" @click="onSubmitQueryForm" :disabled="submitDisabled">查询</el-button>
-            <span class="btn-more-filters">
-              <a @click="toggleMoreFilters" v-if="enableMoreFilters">
-                更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
-              </a>
-            </span>
-          </el-form-item>
           <!-- PC端更多筛选项 -->
           <el-collapse-transition>
-            <div v-if="!$isMobile && showMoreFilters">
-              <slot name="moreFilters"></slot>
-            </div>
+            <el-row v-if="!$isMobile && showMoreFilters">
+              <el-col :span="24">
+                <slot name="moreFilters"></slot>
+              </el-col>
+            </el-row>
           </el-collapse-transition>
           <!-- end -->
+
         </el-form>
       </slot>
     </div>

@@ -117,4 +117,12 @@ body.device-mobile {
   font-weight: normal;
   color: #333;
 }
+
+// 其他的一些设置 ****/
+body.device-mobile {
+  // messageBox宽度 100%
+  .el-message-box {
+    width: 94%;
+  }
+}
 </style>
