@@ -50,6 +50,6 @@ export default {
 
 <style lang="scss">
 .page-view {
-  background: #f9f9f9;
+  //background: #f9f9f9;
 }
 </style>

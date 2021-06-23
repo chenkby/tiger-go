@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column prop="address" label="地址">
       </el-table-column>
-      <action-column width="150px" @update="onUpdate" @delete="onDelete"></action-column>
+      <action-column width="150px" @delete="onDelete"></action-column>
     </el-table>
 
     <table-footer v-if="tableData?.length > 0" :pagination="pagination" @current-change="onCurrentChange" @size-change="onSizeChange" @delete="onDelete"></table-footer>
@@ -59,6 +59,7 @@ export default {
   components: { FormDialog },
   data() {
     return {
+      // 搜索字段
       searchFields: [
         { label: '用户ID', value: 'user_id' },
         { label: '手机号码', value: 'mobile' }
@@ -66,10 +67,11 @@ export default {
     }
   },
   setup() {
-    return useList(getArticleList, deleteArticle, 'article_id', dialogMode)
-  },
-  methods: {
-
+    const searchForm = {
+      keyword: '',
+      status: ''
+    }
+    return useList(getArticleList, deleteArticle, 'article_id', dialogMode, searchForm)
   },
   mixins: [listMixin]
 }

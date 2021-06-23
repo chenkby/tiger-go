@@ -38,7 +38,7 @@ const useDialog = () => {
   }
 }
 
-export default function (isDialogMode, labels, hints) {
+export default function (isDialogMode, labels, rules, hints) {
   const { ctx } = getCurrentInstance()
   const id = ref(ctx.$route.query.id || null)
   const loading = ref(false)
@@ -69,6 +69,8 @@ export default function (isDialogMode, labels, hints) {
     refForm,
     dialogMode,
     labelPosition,
+    rules,
+    hints,
     onCancel,
     ...useForm(refForm),
     ...useDialog()

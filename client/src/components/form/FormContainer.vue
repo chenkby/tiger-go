@@ -5,7 +5,7 @@
       <page-header :title="pageTitle"></page-header>
       <el-row>
         <el-col :lg="3">
-          <slot name="nav"></slot>
+          <slot name="left"></slot>
         </el-col>
         <el-col :lg="15">
           <slot name="default"></slot>
@@ -33,6 +33,7 @@ export default {
   name: "FormContainer",
   components: { PageHeader, FormDialog },
   props: {
+    // 对话框宽度
     dialogWidth: {
       type: String,
       default: '50%'
@@ -95,6 +96,43 @@ export default {
     line-height: 1.5em;
     margin-top: 3px;
     padding-top: 0;
+  }
+
+  .quick-nav {
+    border-right: 1px solid #efefef;
+    text-align: right;
+    padding-right: 20px;
+    width: 120px;
+    position: fixed;
+
+    .item {
+      padding: 5px 0;
+      font-size: 12px;
+      .el-link.el-link--default {
+        color: #333;
+        &:hover {
+          color: $--color-primary;
+        }
+      }
+    }
+    .title {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #777;
+    }
+    .el-link {
+      font-weight: normal;
+      font-size: 80%;
+    }
+  }
+}
+body.device-mobile {
+  .tiger-form-container {
+    // 手机模式下，表单label下边距
+    .el-form--label-top .el-form-item__label {
+      padding: 0;
+      line-height: 30px;
+    }
   }
 }
 </style>

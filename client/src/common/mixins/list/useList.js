@@ -1,57 +1,21 @@
 /**
  * 列表页逻辑
  */
-import {
-  getCurrentInstance,
-  ref,
-  computed,
-  provide,
-  onMounted,
-  onUnmounted,
-  inject
-} from 'vue'
+import { getCurrentInstance, ref, provide } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import emitter from 'tiny-emitter/instance'
 
-const useSearch = () => {
-  // 搜索model
-  const searchForm = ref({
-    keyword: ''
-  })
-  // 提交搜索
-  const onSearch = () => {
-    loadData()
-  }
-  return {
-    searchForm
-  }
-}
-
 const useLoad = () => {}
 
 /**
- * 操作
+ * 数据操作
  * @param {*} ctx
  * @returns
  */
-const useDataOperate = (ctx, dialogMode, deleteApi, loadData) => {
+const useDataOperate = (ctx, dialogMode, primaryKey, deleteApi, loadData) => {
   const refFormDialog = ref(null)
-  // 点击行编辑时触发
-  const onUpdate = (row) => {
-    if (dialogMode) {
-      refFormDialog.value.open({
-        id: row['article_id'],
-        model: JSON.parse(JSON.stringify(row))
-      })
-    } else {
-      ctx.$router.push({
-        append: true,
-        path: 'update',
-        query: { id: row['article_id'] }
-      })
-    }
-  }
+  provide('refFormDialog', refFormDialog)
 
   /**
    * 确认删除单行数据
@@ -68,9 +32,9 @@ const useDataOperate = (ctx, dialogMode, deleteApi, loadData) => {
       }
     }
   }
+
   return {
     refFormDialog,
-    onUpdate,
     onDelete
   }
 }
@@ -107,7 +71,13 @@ const useTable = (tableData) => {
  * @param {Boolean} dialogMode 是否使用对话框模式
  * @returns
  */
-export default function (getListApi, deleteApi, primaryKey, isDialogMode) {
+export default function (
+  getListApi,
+  deleteApi,
+  primaryKey,
+  isDialogMode,
+  searchForm
+) {
   const { ctx } = getCurrentInstance()
   const store = useStore()
   const route = useRoute()
@@ -120,11 +90,6 @@ export default function (getListApi, deleteApi, primaryKey, isDialogMode) {
   provide('primaryKey', primaryKey) // 主键名
   provide('dialogMode', dialogMode) // 是否对话框模式
   provide('refTable', refTable) // el-table的引用
-
-  // 搜索model
-  const searchForm = ref({
-    keyword: ''
-  })
 
   // 提交搜索
   const onSearch = () => {
@@ -144,7 +109,7 @@ export default function (getListApi, deleteApi, primaryKey, isDialogMode) {
    * @param {*} page 要请求第几页
    */
   const loadData = async (page) => {
-    const queryParams = searchForm.value || {}
+    const queryParams = searchForm || {}
     queryParams.page = page || pagination.value?.currentPage || 1
     queryParams.pageSize =
       store.state.table.pageSize[currentPath] ||

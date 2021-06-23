@@ -6,7 +6,7 @@
           <el-row>
             <el-col :span="24">
               <el-form-item>
-                <el-input class="keyword-input" :placeholder="placeholder" prefix-icon="el-icon-search" clearable v-model="keyword" @input="onKeywordInput">
+                <el-input class="keyword-input" :placeholder="placeholder" prefix-icon="el-icon-search" clearable v-model="keyword" @input="onKeywordInput" @clear="onKeywordInput">
                   <template #prepend v-if="enableInputPrepend">
                     <slot name="prepend"></slot>
                   </template>
@@ -24,7 +24,7 @@
               <el-form-item class="search-form_buttons">
                 <span class="space"></span>
                 <el-button type="primary" native-type="submit" @click="onSubmitQueryForm" :disabled="submitDisabled">查询</el-button>
-                <span class=" btn-more-filters">
+                <span class="btn-more-filters">
                   <a @click="toggleMoreFilters" v-if="enableMoreFilters">
                     更多筛选项<i :class="showMoreFilters ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
                   </a>
@@ -49,7 +49,7 @@
 
     <div class="tiger-table-header__right">
       <slot name="right">
-        <el-button type="success" icon="el-icon-plus">{{createTitle}}</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="onCreate">{{createTitle}}</el-button>
         <slot name="tool">
           <!-- <el-button-group style="margin-left:10px;">
             <el-tooltip effect="light" transition="" :append-to-body="true" content="Top Left 提示文字" placement="top-end">
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { getCurrentInstance, ref, computed, onMounted, onUnmounted } from 'vue'
+import { getCurrentInstance, ref, computed, onMounted, onUnmounted, inject } from 'vue'
 import emitter from 'tiny-emitter/instance'
 export default {
   props: {
@@ -126,6 +126,24 @@ export default {
 
     // 根据设备判断搜索表单是否行内表单
     const inlineForm = computed(() => !ctx.$isMobile)
+
+    // 上级页面的对话框组件引用
+    const refFormDialog = inject('refFormDialog')
+    // 对话框模式
+    const dialogMode = inject('dialogMode', true)
+
+
+    /**
+     * 点击添加按钮时触发
+     */
+    const onCreate = () => {
+      if (dialogMode) {
+        refFormDialog.value.open()
+      } else {
+        const { path } = ctx.$route
+        ctx.$router.push(path + (path.endsWith('/') ? '' : '/') + 'create')
+      }
+    }
     return {
       inlineForm,
       enableInputPrepend,
@@ -135,7 +153,8 @@ export default {
       keyword,
       onKeywordInput,
       submitDisabled,
-      onSubmitQueryForm
+      onSubmitQueryForm,
+      onCreate
     }
   }
 }
@@ -166,6 +185,7 @@ export default {
       color: #666;
       display: inline-block;
       margin-left: 15px;
+      user-select: none;
       &:hover {
         color: #222;
       }

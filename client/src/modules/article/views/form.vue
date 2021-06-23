@@ -1,12 +1,29 @@
 <template>
   <form-container ref="formContainer" page-title="添加活动">
-    <el-form ref="refForm" :model="form" :label-width="labelWidth" :rules="rules" :label-position="labelPosition" @validate="onValidate">
+    <template #left>
+      <div class="quick-nav">
+        <div class="item title">快速导航</div>
+        <div class="item">
+          <el-link href="javascript:void 0;" @click="gotoAnchor('panel1')">基本资料</el-link>
+        </div>
+        <div class="item">
+          <el-link href="javascript:void 0;" @click="gotoAnchor('panel2')">内容设置</el-link>
+        </div>
+        <div class="item">
+          <el-link>VIP价格设置</el-link>
+        </div>
+        <div class="item">
+          <el-link>分享设置</el-link>
+        </div>
+      </div>
+    </template>
+    <el-form ref="refForm" :model="formData" :label-width="labelWidth" :rules="rules" :label-position="labelPosition" @validate="onValidate">
 
       <field prop="name" hint="名称不能小于20个字符">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="formData.name"></el-input>
       </field>
       <!-- <el-form-item prop="name" label="活动名称">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="formData.name"></el-input>
           <span class="hint">名称不能少于20个字符</span>
           <span class="hint hint-error">这是错误描述</span>
           <template #error>
@@ -15,7 +32,7 @@
 
         </el-form-item> -->
       <field prop="aa" label="活动区域">
-        <el-select v-model="form.region" placeholder="请选择活动区域">
+        <el-select v-model="formData.region" placeholder="请选择活动区域">
           <el-option label="区域一" value="shanghai"></el-option>
           <el-option label="区域二" value="beijing"></el-option>
         </el-select>
@@ -23,18 +40,18 @@
       </field>
       <el-form-item label="活动时间">
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" v-model="formData.date1" style="width: 100%;"></el-date-picker>
         </el-col>
         <el-col class="line" :span="2">-</el-col>
         <el-col :span="11">
-          <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+          <el-time-picker placeholder="选择时间" v-model="formData.date2" style="width: 100%;"></el-time-picker>
         </el-col>
       </el-form-item>
       <el-form-item label="即时配送">
-        <el-switch v-model="form.delivery"></el-switch>
+        <el-switch v-model="formData.delivery"></el-switch>
       </el-form-item>
       <el-form-item label="活动性质">
-        <el-checkbox-group v-model="form.type">
+        <el-checkbox-group v-model="formData.type">
           <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
           <el-checkbox label="地推活动" name="type"></el-checkbox>
           <el-checkbox label="线下主题活动" name="type"></el-checkbox>
@@ -42,13 +59,13 @@
         </el-checkbox-group>
       </el-form-item>
       <el-form-item label="特殊资源">
-        <el-radio-group v-model="form.resource">
+        <el-radio-group v-model="formData.resource">
           <el-radio label="线上品牌商赞助"></el-radio>
           <el-radio label="线下场地免费"></el-radio>
         </el-radio-group>
       </el-form-item>
       <field label="活动形式" prop="desc">
-        <el-input type="textarea" v-model="form.desc"></el-input>
+        <el-input type="textarea" v-model="formData.desc"></el-input>
       </field>
 
     </el-form>
@@ -56,75 +73,6 @@
       <form-buttons @submit="onSubmit" @cancel="onCancel"></form-buttons>
     </template>
   </form-container>
-  <!-- <div class="form-container">
-    <el-row>
-      <el-col :lg="3">
-        <div class="quick-nav">
-          <div class="item title">快速导航</div>
-          <div class="item">
-            <el-link href="javascript:void 0;" @click="gotoAnchor('panel1')">基本资料</el-link>
-          </div>
-          <div class="item">
-            <el-link href="javascript:void 0;" @click="gotoAnchor('panel2')">内容设置</el-link>
-          </div>
-          <div class="item">
-            <el-link>VIP价格设置</el-link>
-          </div>
-          <div class="item">
-            <el-link>分享设置</el-link>
-          </div>
-        </div>
-      </el-col>
-      <el-col :lg="15">
-        <el-form ref="form" :model="form" label-width="100px" :label-position="labelPosition">
-          <panel title="基本资料" name="panel1">
-            <el-form-item label="活动名称：">
-              <el-input v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item label="活动区域">
-              <el-select v-model="form.region" placeholder="请选择活动区域">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="活动时间">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-              </el-col>
-              <el-col class="line" :span="2">-</el-col>
-              <el-col :span="11">
-                <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-              </el-col>
-            </el-form-item>
-            <el-form-item label="即时配送">
-              <el-switch v-model="form.delivery"></el-switch>
-            </el-form-item>
-            <el-form-item label="活动性质">
-              <el-checkbox-group v-model="form.type">
-                <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                <el-checkbox label="地推活动" name="type"></el-checkbox>
-                <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-              </el-checkbox-group>
-            </el-form-item>
-            <el-form-item label="特殊资源">
-              <el-radio-group v-model="form.resource">
-                <el-radio label="线上品牌商赞助"></el-radio>
-                <el-radio label="线下场地免费"></el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="活动形式">
-              <el-input type="textarea" v-model="form.desc"></el-input>
-            </el-form-item>
-          </panel>
-
-
-
-        </el-form>
-      </el-col>
-    </el-row>
-
-  </div> -->
 </template>
 <script>
 import useForm from '@/common/mixins/form/useForm'
@@ -138,8 +86,7 @@ export default {
   data() {
     return {
       labelWidth: '100px',
-      rules: rules,
-      form: {
+      formData: {
         name: '',
         region: '',
         date1: '',
@@ -152,7 +99,7 @@ export default {
     }
   },
   setup() {
-    return useForm(dialogMode, labels, hints)
+    return useForm(dialogMode, labels, rules, hints)
   },
   methods: {
     gotoAnchor(name) {
@@ -165,43 +112,3 @@ export default {
   mixins: [formMixin]
 }
 </script>
-
-<style lang="scss">
-body.device-mobile {
-  // 手机模式下，表单label下边距
-  .el-form--label-top .el-form-item__label {
-    padding: 0;
-    line-height: 30px;
-  }
-}
-
-.form-container {
-  .quick-nav {
-    border-right: 1px solid #efefef;
-    text-align: right;
-    padding-right: 20px;
-    width: 120px;
-    position: fixed;
-
-    .item {
-      padding: 5px 0;
-      font-size: 12px;
-      .el-link.el-link--default {
-        color: #333;
-        &:hover {
-          color: $--color-primary;
-        }
-      }
-    }
-    .title {
-      font-size: 16px;
-      margin-bottom: 5px;
-      color: #777;
-    }
-    .el-link {
-      font-weight: normal;
-      font-size: 80%;
-    }
-  }
-}
-</style>
