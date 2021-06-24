@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export const getArticleList = function (queryParams) {
+export const listApi = function (queryParams) {
   return request({
-    url: '/article/list',
+    url: '/video/list',
     method: 'get',
     params: queryParams
   })
 }
 
-export const deleteArticle = (data, queryParams) => {
+export const deleteApi = (data, queryParams) => {
   return request({
-    url: '/article/delete',
+    url: '/video/delete',
     method: 'post',
     data: data,
     params: queryParams

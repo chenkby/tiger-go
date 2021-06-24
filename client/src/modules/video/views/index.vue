@@ -32,11 +32,20 @@
       </template>
       <el-table-column type="selection" width="44">
       </el-table-column>
-      <el-table-column prop="title" label="日期">
+      <el-table-column prop="name" :label="labels.name">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="100">
+      <download-column prop="video"></download-column>
+      <el-table-column prop="size" :label="labels.size">
       </el-table-column>
-      <el-table-column prop="address" label="地址">
+      <el-table-column prop="play_num" :label="labels.play_num">
+      </el-table-column>
+      <switch-column></switch-column>
+      <!-- <el-table-column prop="free" :label="labels.free">
+        <template #default="scope">
+          <switch-column :scope="scope"></switch-column>
+        </template>
+      </el-table-column> -->
+      <el-table-column prop="rank" :label="labels.rank">
       </el-table-column>
       <action-column width="150px" @delete="onDelete"></action-column>
     </el-table>
@@ -49,7 +58,8 @@
 <script>
 import listMixin from '@/common/mixins/list'
 import useList from '@/common/mixins/list/useList'
-import { getArticleList, deleteArticle } from '@/modules/article/api'
+import { listApi, deleteApi } from './../api'
+import { labels } from './../models/video'
 import FormDialog from './form.vue'
 /**
  * 是否使用对话框模式
@@ -71,7 +81,14 @@ export default {
       keyword: '',
       status: ''
     }
-    return useList(getArticleList, deleteArticle, 'article_id', dialogMode, searchForm)
+    return useList({
+      dialogMode: dialogMode,
+      listApi: listApi,
+      deleteApi: deleteApi,
+      primaryKey: 'article_id',
+      searchForm: searchForm,
+      labels: labels
+    })
   },
   mixins: [listMixin]
 }

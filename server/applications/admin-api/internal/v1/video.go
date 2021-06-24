@@ -8,9 +8,9 @@ import (
 	"tiger-go/tiger/response"
 )
 
-var Article = new(articleApi)
+var Video = new(videoApi)
 
-type articleApi struct {
+type videoApi struct {
 }
 
 // 文章列表
@@ -25,67 +25,67 @@ type articleApi struct {
 // @Failure 400 {string} string "ok"
 // @Failure 404 {string} string "ok"
 // @Failure 500 {string} string "ok"
-// @Router /v1/article/list/{account_id} [get]
-func (*articleApi) List(c *gin.Context) {
-	var req define.ArticleListReq
+// @Router /v1/video/list/{account_id} [get]
+func (*videoApi) List(c *gin.Context) {
+	var req define.VideoListReq
 	if err := c.ShouldBind(&req); err != nil {
 		response.Error(c, err)
 		return
 	}
-	if result, err := service.Article.List(c, &req); err != nil {
+	if result, err := service.Video.List(c, &req); err != nil {
 		response.Error(c, err)
 	} else {
 		response.PageSuccess(c, result.Data, result.Paging)
 	}
 }
 
-func (*articleApi) Create(c *gin.Context) {
-	var req define.ArticleCreateReq
+func (*videoApi) Create(c *gin.Context) {
+	var req define.VideoCreateReq
 	if err := c.ShouldBind(&req); err != nil {
 		response.Error(c, err)
 		return
 	}
-	if result, err := service.Article.Create(nil, &req); err != nil {
+	if result, err := service.Video.Create(nil, &req); err != nil {
 		response.Error(c, err)
 	} else {
 		response.Success(c, result)
 	}
 }
 
-func (*articleApi) Update(c *gin.Context) {
-	var req define.ArticleUpdateReq
+func (*videoApi) Update(c *gin.Context) {
+	var req define.VideoUpdateReq
 	if err := c.ShouldBind(&req); err != nil {
 		response.Error(c, err)
 		return
 	}
-	if result, err := service.Article.Update(nil, &req); err != nil {
+	if result, err := service.Video.Update(nil, &req); err != nil {
 		response.Error(c, err)
 	} else {
 		response.Success(c, result)
 	}
 }
 
-func (*articleApi) Delete(c *gin.Context) {
-	var req define.ArticleDeleteReq
+func (*videoApi) Delete(c *gin.Context) {
+	var req define.VideoDeleteReq
 	if err := c.ShouldBind(&req); err != nil {
 		response.Error(c, err)
 		return
 	}
 	fmt.Println("ids:", req.Ids)
-	if result, err := service.Article.Delete(c, &req); err != nil {
+	if result, err := service.Video.Delete(c, &req); err != nil {
 		response.Error(c, err)
 	} else {
 		response.Success(c, result)
 	}
 }
 
-func (*articleApi) View(c *gin.Context) {
-	var req define.ArticleViewReq
+func (*videoApi) View(c *gin.Context) {
+	var req define.VideoViewReq
 	if err := c.ShouldBindQuery(&req); err != nil {
 		response.Error(c, err)
 		return
 	}
-	result, err := service.Article.View(c, &req)
+	result, err := service.Video.View(c, &req)
 	if err != nil {
 		response.Error(c, err)
 	} else {
@@ -93,13 +93,13 @@ func (*articleApi) View(c *gin.Context) {
 	}
 }
 
-func (*articleApi) Toggle(c *gin.Context) {
-	var req define.ArticleToggleReq
+func (*videoApi) Toggle(c *gin.Context) {
+	var req define.VideoToggleReq
 	if err := c.ShouldBind(&req); err != nil {
 		response.Error(c, err)
 		return
 	}
-	result, err := service.Article.Toggle(c, &req)
+	result, err := service.Video.Toggle(c, &req)
 	fmt.Println(result, err)
 	if err != nil {
 		response.Error(c, err)

@@ -71,13 +71,8 @@ const useTable = (tableData) => {
  * @param {Boolean} dialogMode 是否使用对话框模式
  * @returns
  */
-export default function (
-  getListApi,
-  deleteApi,
-  primaryKey,
-  isDialogMode,
-  searchForm
-) {
+export default function (params) {
+  const { dialogMode: isDialogMode, listApi, deleteApi, primaryKey, searchForm, labels } = params
   const { ctx } = getCurrentInstance()
   const store = useStore()
   const route = useRoute()
@@ -112,10 +107,8 @@ export default function (
     const queryParams = searchForm || {}
     queryParams.page = page || pagination.value?.currentPage || 1
     queryParams.pageSize =
-      store.state.table.pageSize[currentPath] ||
-      pagination.value?.pageSize ||
-      import.meta.env.VITE_DEFAULT_PAGESIZE
-    const res = await getListApi(queryParams)
+      store.state.table.pageSize[currentPath] || pagination.value?.pageSize || import.meta.env.VITE_DEFAULT_PAGESIZE
+    const res = await listApi(queryParams)
     emitter.emit('loadDataComplate')
     loading.value = false
     tableData.value = res.data
@@ -141,6 +134,7 @@ export default function (
 
   return {
     dialogMode,
+    labels,
     ...useTable(tableData),
     refTable,
     searchForm,

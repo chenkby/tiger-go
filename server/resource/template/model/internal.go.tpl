@@ -1,7 +1,9 @@
 package internal
 
 type Article struct {
-	ArticleId int    `gorm:"primaryKey" json:"article_id"`
+{{- range .columns}}
+	{{.Name}} int    `gorm:"primaryKey" json:"article_id"`
+{{- end}}
 	Title     string `json:"title"`
 	Content   string `json:"content"`
 	Template  int    `json:"template"`

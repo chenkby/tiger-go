@@ -13,20 +13,20 @@ const routes = [
     component: () => import('@/views/layouts/layout.vue'),
     children: [
       {
-        path: '/article',
-        component: () => import('@/modules/article/views/index.vue')
+        path: '/video',
+        component: () => import('@/modules/video/views/index.vue')
       },
       {
-        path: '/article/create',
-        component: () => import('@/modules/article/views/form.vue')
+        path: '/video/create',
+        component: () => import('@/modules/video/views/form.vue')
       },
       {
-        path: '/article/update',
-        component: () => import('@/modules/article/views/form.vue')
+        path: '/video/update',
+        component: () => import('@/modules/video/views/form.vue')
       },
       {
-        path: '/article/view',
-        component: () => import('@/modules/article/views/view.vue')
+        path: '/video/view',
+        component: () => import('@/modules/video/views/view.vue')
       }
     ]
   },

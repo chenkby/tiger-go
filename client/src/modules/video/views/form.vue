@@ -77,7 +77,7 @@
 <script>
 import useForm from '@/common/mixins/form/useForm'
 import formMixin from '@/common/mixins/form'
-import { labels, rules, hints } from './../models/article'
+import { labels, rules, hints } from './../models/video'
 /**
  * 是否使用对话框模式
  */
