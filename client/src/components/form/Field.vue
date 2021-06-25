@@ -4,7 +4,7 @@
 
     </slot>
     <span class="hint">
-      <slot name="hint">{{hint}}</slot>
+      <slot name="hint">{{propHint}}</slot>
     </span>
     <span class="hint hint-error">{{errMessage}}</span>
     <template #error>
@@ -74,11 +74,21 @@ export default {
         return labels[props.prop]
       }
     })
+
+    const hints = inject('hints', {})
+    const propHint = computed(() => {
+      if (props.hint !== undefined && props.hint !== null) {
+        return props.hint
+      } else {
+        return hints[props.prop]
+      }
+    })
     return {
       modelValue,
       onValueInput,
       errMessage,
-      propLabel
+      propLabel,
+      propHint
     }
   }
 }

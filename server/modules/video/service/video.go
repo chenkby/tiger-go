@@ -8,6 +8,6 @@ type VideoService struct {
 }
 
 func (s *VideoService) FindOne(dest interface{}, condition interface{}) error {
-	err := tiger.Db().Find(dest, condition).Error
+	err := tiger.Db().Table("video").Find(dest, condition).Error
 	return err
 }

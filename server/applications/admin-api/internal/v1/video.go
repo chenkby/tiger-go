@@ -79,6 +79,20 @@ func (*videoApi) Delete(c *gin.Context) {
 	}
 }
 
+func (*videoApi) Info(c *gin.Context) {
+	var req define.VideoInfoReq
+	if err := c.ShouldBindQuery(&req); err != nil {
+		response.Error(c, err)
+		return
+	}
+	result, err := service.Video.Info(c, &req)
+	if err != nil {
+		response.Error(c, err)
+	} else {
+		response.Success(c, result)
+	}
+}
+
 func (*videoApi) View(c *gin.Context) {
 	var req define.VideoViewReq
 	if err := c.ShouldBindQuery(&req); err != nil {

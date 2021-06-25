@@ -56,7 +56,7 @@ func (s *articleService) Create(ctx context.Context, req *define.ArticleCreateRe
 
 // 更新记录，返回更新后的数据
 func (s *articleService) Update(ctx context.Context, req *define.ArticleUpdateReq) (*define.ArticleViewResp, error) {
-	err := dao.Article.Select("*").Omit(dao.Article.PrimaryKey).Where(req.ArticleId).Updates(&req).Error
+	err := dao.Article.Select("*").Omit("article_id").Where(req.ArticleId).Updates(&req).Error
 	if err != nil {
 		return nil, err
 	}

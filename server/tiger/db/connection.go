@@ -11,15 +11,15 @@ import (
 	"time"
 )
 
-type DB struct {
-	*gorm.DB
-	PrimaryKey string
-}
+//type DB struct {
+//	*gorm.DB
+//	PrimaryKey string
+//}
 
-func New(name ...string) *DB {
+func New(name ...string) *gorm.DB {
 	dsn := getDsn(name...)
 	db := mysqlConnection(dsn)
-	sqlDB, err := db.DB.DB()
+	sqlDB, err := db.DB()
 	if err != nil {
 		panic(err)
 	}
@@ -32,7 +32,7 @@ func New(name ...string) *DB {
 	return db
 }
 
-func mysqlConnection(dsn string) *DB {
+func mysqlConnection(dsn string) *gorm.DB {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
@@ -42,10 +42,7 @@ func mysqlConnection(dsn string) *DB {
 	if err != nil {
 		panic(err)
 	}
-	return &DB{
-		db,
-		"",
-	}
+	return db
 }
 
 func getDsn(name ...string) string {

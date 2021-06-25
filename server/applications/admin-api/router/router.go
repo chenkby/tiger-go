@@ -24,6 +24,7 @@ func Load(r *gin.Engine) {
 		group.GET("/list", v1.Video.List)
 		group.POST("/create", v1.Video.Create)
 		group.POST("/update", v1.Video.Update)
+		group.GET("/info", v1.Video.Info)
 		group.GET("/view", v1.Video.View)
 		group.POST("/toggle", v1.Video.Toggle)
 		group.POST("/delete", v1.Video.Delete)

@@ -8,6 +8,32 @@ export const listApi = function (queryParams) {
   })
 }
 
+export const infoApi = function (queryParams) {
+  return request({
+    url: '/video/info',
+    method: 'get',
+    params: queryParams
+  })
+}
+
+export const createApi = (data, queryParams) => {
+  return request({
+    url: '/video/create',
+    method: 'post',
+    data: data,
+    params: queryParams
+  })
+}
+
+export const updateApi = (data, queryParams) => {
+  return request({
+    url: '/video/update',
+    method: 'post',
+    data: data,
+    params: queryParams
+  })
+}
+
 export const deleteApi = (data, queryParams) => {
   return request({
     url: '/video/delete',

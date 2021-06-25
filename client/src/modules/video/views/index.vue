@@ -85,7 +85,7 @@ export default {
       dialogMode: dialogMode,
       listApi: listApi,
       deleteApi: deleteApi,
-      primaryKey: 'article_id',
+      primaryKey: 'video_id',
       searchForm: searchForm,
       labels: labels
     })

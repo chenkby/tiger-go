@@ -56,7 +56,7 @@ func (s *videoService) Create(ctx context.Context, req *define.VideoCreateReq) (
 
 // 更新记录，返回更新后的数据
 func (s *videoService) Update(ctx context.Context, req *define.VideoUpdateReq) (*define.VideoViewResp, error) {
-	err := dao.Video.Select("*").Omit(dao.Video.PrimaryKey).Where(req.VideoId).Updates(&req).Error
+	err := dao.Video.Select("*").Omit("video_id").Where(req.VideoId).Updates(&req).Error
 	if err != nil {
 		return nil, err
 	}
@@ -65,6 +65,13 @@ func (s *videoService) Update(ctx context.Context, req *define.VideoUpdateReq) (
 		return nil, err
 	}
 	return &result, nil
+}
+
+// 查看model数据，主要用于修改时获取默认值
+func (s *videoService) Info(ctx context.Context, req *define.VideoInfoReq) (*define.VideoInfoResp, error) {
+	var result *define.VideoInfoResp
+	err := s.FindOne(&result, req.VideoId)
+	return result, err
 }
 
 // 批量删除记录，返回成功删除的记录数

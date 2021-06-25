@@ -4,7 +4,6 @@ import (
 	"gorm.io/gorm"
 	"tiger-go/modules/article/dao/internal"
 	"tiger-go/tiger"
-	"tiger-go/tiger/db"
 )
 
 type articleDao struct {
@@ -30,10 +29,12 @@ type dao struct {
 //	//return dao
 //}
 
-var Article = &db.DB{
-	DB:         tiger.Db().Table("article").Session(&gorm.Session{}),
-	PrimaryKey: "article_id",
-}
+//var Article = &db.DB{
+//	DB:         tiger.Db().Table("article").Session(&gorm.Session{}),
+//	PrimaryKey: "article_id",
+//}
+
+var Article =  tiger.Db().Table("article").Session(&gorm.Session{})
 
 
 //var Article = &articleDao{

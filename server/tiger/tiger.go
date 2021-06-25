@@ -1,6 +1,7 @@
 package tiger
 
 import (
+	"gorm.io/gorm"
 	"os"
 	"tiger-go/tiger/configure"
 	"tiger-go/tiger/db"
@@ -30,7 +31,7 @@ func Config() *configure.Config {
 }
 
 // 返回数据库连接对象(gorm.DB)
-func Db(name ...string) *db.DB {
+func Db(name ...string) *gorm.DB {
 	return db.New(name...)
 }
 

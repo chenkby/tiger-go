@@ -2,18 +2,17 @@ package data
 
 import (
 	"gorm.io/gorm"
-	"tiger-go/tiger/db"
 )
 
 type Provider struct {
-	Query    *db.DB
+	Query    *gorm.DB
 	Page     int
 	PageSize int
 	OrderBy  string
 }
 
 func (provider *Provider) Find(dest interface{}) (*Paging, error) {
-	query := provider.Query.Session(&gorm.Session{})
+	query := provider.Query
 	var totalCount int64
 
 	query.Count(&totalCount)

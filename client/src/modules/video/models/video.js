@@ -1,3 +1,6 @@
+/**
+ * 字段标签
+ */
 const labels = {
   video_id: '视频ID',
   name: '视频名称',
@@ -11,6 +14,9 @@ const labels = {
   size: '视频大小'
 }
 
+/**
+ * 表单数据验证规则
+ */
 const rules = {
   name: [{ type: 'string', required: true, max: 50, whitespace: true, fullField: labels.name }],
   category_id: [{ type: 'integer', required: true, min: 1, fullField: labels.category_id }],
@@ -22,6 +28,9 @@ const rules = {
   free: [{ type: 'integer', required: true, min: 0, fullField: labels.free }]
 }
 
+/**
+ * 字段提示
+ */
 const hints = {
   rank: '数字越大排得越前面'
 }

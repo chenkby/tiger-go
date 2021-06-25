@@ -2,8 +2,9 @@ import { useRoute } from 'vue-router'
 import { getCurrentInstance, ref, inject, computed, provide } from 'vue'
 import emitter from 'tiny-emitter/instance'
 
-const useForm = (refForm) => {
+const useForm = (refForm, formData) => {
   const onSubmit = () => {
+    console.log(formData.value)
     refForm.value.validate((valid) => {
       if (valid) {
         alert('submit!')
@@ -38,10 +39,28 @@ const useDialog = () => {
   }
 }
 
-export default function (isDialogMode, labels, rules, hints) {
+const useData = (id, formData, infoApi) => {
+  const loading = ref(false)
+  const loadData = async () => {
+    if (id.value) {
+      loading.value = true
+      const res = await infoApi({ id: id.value })
+      loading.value = false
+      if (res.err_code === 0) {
+        formData.value = { ...formData.value, ...res.data }
+      }
+    }
+  }
+  return {
+    loadData
+  }
+}
+
+export default function (params, apis) {
+  const { dialogMode: isDialogMode, labels, hints, formData } = params
+  const { createApi, updateApi, infoApi } = apis
   const { ctx } = getCurrentInstance()
   const id = ref(ctx.$route.query.id || null)
-  const loading = ref(false)
 
   // 如果是移动端，不使用对话框模式
   const dialogMode = ctx.$isMobile ? false : isDialogMode
@@ -55,7 +74,7 @@ export default function (isDialogMode, labels, rules, hints) {
   // 表单label位置
   const labelPosition = computed(() => (ctx.$isMobile ? 'top' : 'right'))
 
-  const loadData = () => {}
+  const { loadData } = useData(id, formData, infoApi)
 
   // 取消，返回上一页或者关闭对话框
   const onCancel = () => {
@@ -69,10 +88,11 @@ export default function (isDialogMode, labels, rules, hints) {
     refForm,
     dialogMode,
     labelPosition,
-    rules,
     hints,
+    formData,
+    loadData,
     onCancel,
-    ...useForm(refForm),
+    ...useForm(refForm, formData),
     ...useDialog()
   }
 }
