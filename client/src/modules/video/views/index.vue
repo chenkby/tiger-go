@@ -24,7 +24,7 @@
       </template>
     </table-header>
 
-    <el-table :data="tableData" @selection-change="onSelectionChange" size="medium" ref="refTable">
+    <grid :data="tableData" @selection-change="onSelectionChange" ref="refTable" primaryKey="video_id">
       <template #empty>
         <el-empty :image-size="140">
           <el-button type="primary" icon="el-icon-refresh" @click="refresh">刷新</el-button>
@@ -32,14 +32,19 @@
       </template>
       <el-table-column type="selection" width="44">
       </el-table-column>
-      <el-table-column prop="name" :label="labels.name">
+      <el-table-column prop="name" :label="labels.name" min-width="100px">
       </el-table-column>
       <download-column prop="video"></download-column>
-      <el-table-column prop="size" :label="labels.size">
+      <el-table-column prop="size" :label="labels.size" min-width="100px">
       </el-table-column>
-      <el-table-column prop="play_num" :label="labels.play_num">
+      <el-table-column prop="play_num" :label="labels.play_num" min-width="100px">
       </el-table-column>
-      <switch-column></switch-column>
+      <el-table-column prop="free" :labels="labels.free" min-width="100px">
+        <template #default="scope">
+          <switch-column :api="toggleApi" :row="scope.row"></switch-column>
+        </template>
+      </el-table-column>
+
       <!-- <el-table-column prop="free" :label="labels.free">
         <template #default="scope">
           <switch-column :scope="scope"></switch-column>
@@ -48,7 +53,7 @@
       <el-table-column prop="rank" :label="labels.rank">
       </el-table-column>
       <action-column width="150px" @delete="onDelete"></action-column>
-    </el-table>
+    </grid>
 
     <table-footer v-if="tableData?.length > 0" :pagination="pagination" @current-change="onCurrentChange" @size-change="onSizeChange" @delete="onDelete"></table-footer>
   </el-skeleton>
@@ -58,7 +63,7 @@
 <script>
 import listMixin from '@/common/mixins/list'
 import useList from '@/common/mixins/list/useList'
-import { listApi, deleteApi } from './../api'
+import { listApi, deleteApi, toggleApi } from './../api'
 import { labels } from './../models/video'
 import FormDialog from './form.vue'
 /**
@@ -73,7 +78,8 @@ export default {
       searchFields: [
         { label: '用户ID', value: 'user_id' },
         { label: '手机号码', value: 'mobile' }
-      ]
+      ],
+      toggleApi: toggleApi
     }
   },
   setup() {

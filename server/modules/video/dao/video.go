@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"gorm.io/gorm"
 	"tiger-go/tiger"
 )
 
@@ -9,4 +10,4 @@ import (
 //	PrimaryKey: "video_id",
 //}
 
-var Video = tiger.Db().Table("video")
+var Video = tiger.Db().Table("video").Session(&gorm.Session{})

@@ -43,6 +43,15 @@ export const deleteApi = (data, queryParams) => {
   })
 }
 
+export const toggleApi = (data, queryParams) => {
+  return request({
+    url: '/video/toggle',
+    method: 'post',
+    data: data,
+    params: queryParams
+  })
+}
+
 // or
 // export default {
 //   list(queryParams) {

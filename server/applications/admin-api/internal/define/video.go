@@ -1,6 +1,7 @@
 package define
 
 import (
+	"gorm.io/gorm"
 	_ "tiger-go/modules/video/model"
 	"tiger-go/tiger/data"
 )
@@ -22,10 +23,10 @@ type VideoListResp struct {
 
 // 创建请求参数
 type VideoCreateReq struct {
-	Title    string `json:"title" form:"title" binding:"required"`
-	Content  string `json:"content" form:"content"`
-	Template int    `json:"template" form:"template"`
-	Status   int    `json:"status"`
+	Name       string `json:"name" form:"name" binding:"required"`
+	CategoryId int    `json:"category_id" form:"category_id"`
+	Template   int    `json:"template" form:"template"`
+	Status     int    `json:"status"`
 }
 
 // 修改请求参数
@@ -38,7 +39,6 @@ type VideoUpdateReq struct {
 type VideoInfoReq struct {
 	VideoId int `form:"id" binding:"required|min=1"`
 }
-
 
 // 查看model响应数据
 type VideoInfoResp struct {
@@ -64,6 +64,15 @@ type VideoDeleteReq struct {
 // 查看请求参数
 type VideoViewReq struct {
 	VideoId int `form:"article_id" binding:"required|min=1"`
+}
+
+func (m *VideoViewResp) AfterFind(tx *gorm.DB) (err error) {
+
+	if m.Image != "" {
+		m.Image = "https://xx.com" + m.Image
+	}
+
+	return nil
 }
 
 // 修改字段值请求参数

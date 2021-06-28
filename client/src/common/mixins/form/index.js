@@ -78,16 +78,14 @@ export default {
      * 提交表单
      * @param message 成功后提示消息
      */
-    async onSubmit(message) {
-      return this.$refs.form
-        .validate()
-        .then(async (s) => {
+    onSubmit(message) {
+      this.$refs.refForm.validate(async (valid) => {
+        if (valid) {
           let res = {}
-          let queryParams = {}
-          if (!this.id) {
-            res = await this.createApi.call(this, this.model, queryParams)
+          if (this.id) {
+            res = await this.updateApi(this.model)
           } else {
-            res = await this.updateApi.call(this, this.model, queryParams)
+            res = await this.createApi(this.model)
           }
 
           if (res.err_code === 0) {
@@ -96,7 +94,7 @@ export default {
               type: 'success'
             })
             if (this.dialogMode) {
-              this.$refs.container.close()
+              this.$refs.formContainer.close()
               this.$emit('success', res)
               this.$refs.form.resetFields()
             } else {
@@ -104,8 +102,37 @@ export default {
             }
           }
           return res
-        })
-        .catch((err) => {})
+        } else {
+          return false
+        }
+      })
+      // return this.$refs.refForm
+      //   .validate()
+      //   .then(async (s) => {
+      //     let res = {}
+      //     let queryParams = {}
+      //     if (!this.id) {
+      //       res = await this.createApi.call(this, this.model, queryParams)
+      //     } else {
+      //       res = await this.updateApi.call(this, this.model, queryParams)
+      //     }
+
+      //     if (res.err_code === 0) {
+      //       this.$message({
+      //         message: message || (this.id ? '修改成功' : '创建成功'),
+      //         type: 'success'
+      //       })
+      //       if (this.dialogMode) {
+      //         this.$refs.container.close()
+      //         this.$emit('success', res)
+      //         this.$refs.form.resetFields()
+      //       } else {
+      //         this.$router.go(-1)
+      //       }
+      //     }
+      //     return res
+      //   })
+      //   .catch((err) => {})
     },
 
     /**
@@ -117,7 +144,7 @@ export default {
       const res = await infoApi(queryParams)
       this.loading = false
       if (res.err_code === 0) {
-        this.formData = { ...this.formData, ...res.data }
+        this.model = { ...this.model, ...res.data }
       }
 
       //this.closeLoading()

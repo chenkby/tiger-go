@@ -17,25 +17,25 @@
         </div>
       </div>
     </template>
-    <el-form ref="refForm" :model="formData" :label-width="labelWidth" :rules="rules" :label-position="labelPosition" @validate="onValidate">
+    <el-form ref="refForm" :model="model" :label-width="labelWidth" :rules="rules" :label-position="labelPosition" @validate="onValidate">
 
       <field prop="name">
-        <el-input v-model="formData.name" maxlength="50"></el-input>
+        <el-input v-model="model.name" maxlength="50"></el-input>
       </field>
       <el-row>
         <el-col :span="12">
           <field prop="status">
-            <form-radio-group v-model="formData.status"></form-radio-group>
+            <form-radio-group v-model="model.status"></form-radio-group>
           </field>
         </el-col>
         <el-col :span="12">
           <field prop="free">
-            <form-radio-group v-model="formData.status" :items="boolItems"></form-radio-group>
+            <form-radio-group v-model="model.status" :items="boolItems"></form-radio-group>
           </field>
         </el-col>
       </el-row>
       <field prop="rank">
-        <el-input v-model.number="formData.rank" style="width:120px"></el-input>
+        <el-input v-model.number="model.rank" style="width:120px"></el-input>
       </field>
 
     </el-form>
@@ -45,7 +45,6 @@
   </form-container>
 </template>
 <script>
-import useForm from '@/common/mixins/form/useForm'
 import formMixin from '@/common/mixins/form'
 import { labels, rules, hints } from './../models/video'
 import { createApi, updateApi, infoApi } from './../api'
@@ -53,13 +52,15 @@ export default {
   data() {
     return {
       infoApi: infoApi,
+      createApi: createApi,
+      updateApi: updateApi,
       dialogMode: false,
       labelWidth: '100px',
       rules: rules,
       boolItems: [
         "是", "否"
       ],
-      formData: {
+      model: {
         status: 1,
         free: 1,
         rank: 0

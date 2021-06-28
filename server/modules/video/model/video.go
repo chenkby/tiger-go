@@ -1,11 +1,5 @@
 package model
 
-import (
-	"errors"
-	"fmt"
-	"gorm.io/gorm"
-)
-
 type Video struct {
 	VideoId   int    `json:"video_id" from:"video_id"`
 	Name      string `json:"name" form:"name"`
@@ -25,11 +19,3 @@ func (*Video) TableName() string {
 	return "video"
 }
 
-func (m *Video) AfterFind(tx *gorm.DB) (err error) {
-	fmt.Println("触发了afterFind")
-	if m.Image != "" {
-		m.Image = "https://shizi-cdn.tuxiaobei.com" + m.Image
-	}
-
-	return errors.New("发生了错误")
-}
