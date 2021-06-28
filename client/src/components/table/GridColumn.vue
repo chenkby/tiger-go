@@ -1,12 +1,13 @@
 <template>
   <el-table-column :prop="prop" :label="label" :min-width="minWidth">
-    <template #default="scope">
-      <slot name="default" :model="scope"></slot>
+    <template #default="{row,column,$index,store}">
+      <slot :row="row" :column="column" :$index="$index" :store="store">{{row[prop]}}</slot>
     </template>
   </el-table-column>
 </template>
 
 <script>
+import { ref, provide } from 'vue'
 export default {
   props: {
     prop: {
@@ -24,13 +25,9 @@ export default {
       type: String
     }
   },
-  setup(props, { slots }) {
-    console.log(slots.default())
-  },
-  created() {
-    console.log(this)
+  setup(props, { emit }) {
+    provide('prop', props.prop)
   }
-
 }
 
 </script>

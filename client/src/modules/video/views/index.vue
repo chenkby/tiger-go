@@ -24,7 +24,7 @@
       </template>
     </table-header>
 
-    <grid :data="tableData" @selection-change="onSelectionChange" ref="refTable" primaryKey="video_id">
+    <el-table :data="tableData" @selection-change="onSelectionChange" ref="refTable">
       <template #empty>
         <el-empty :image-size="140">
           <el-button type="primary" icon="el-icon-refresh" @click="refresh">刷新</el-button>
@@ -40,20 +40,20 @@
       <el-table-column prop="play_num" :label="labels.play_num" min-width="100px">
       </el-table-column>
       <el-table-column prop="free" :labels="labels.free" min-width="100px">
-        <template #default="scope">
-          <switch-column :api="toggleApi" :row="scope.row"></switch-column>
+        <template #default="{row}">
+          <switch-column :row="row" prop="free" :api="toggleApi"></switch-column>
         </template>
       </el-table-column>
 
-      <!-- <el-table-column prop="free" :label="labels.free">
-        <template #default="scope">
-          <switch-column :scope="scope"></switch-column>
-        </template>
-      </el-table-column> -->
+      <!-- <el-table-column prop=" free" :label="labels.free">
+            <template #default="scope">
+              <switch-column :scope="scope"></switch-column>
+            </template>
+            </el-table-column> -->
       <el-table-column prop="rank" :label="labels.rank">
       </el-table-column>
       <action-column width="150px" @delete="onDelete"></action-column>
-    </grid>
+    </el-table>
 
     <table-footer v-if="tableData?.length > 0" :pagination="pagination" @current-change="onCurrentChange" @size-change="onSizeChange" @delete="onDelete"></table-footer>
   </el-skeleton>

@@ -1,15 +1,15 @@
 <template>
-  <el-switch v-model="row[prop]" @click="onClick(row[primaryKey])" :disabled="disabled" active-color="#13ce66" :active-value="activeValue" :inactive-value="inactiveValue" @change="onChange(row[primaryKey])" :loading="loading"></el-switch>
+  <el-switch v-model="row[prop]" :disabled="disabled" active-color="#13ce66" :active-value="activeValue" :inactive-value="inactiveValue" @change="onChange" :loading="loading"></el-switch>
 </template>
 
 <script>
 import { ref, inject } from 'vue'
 export default {
   props: {
-    // prop: {
-    //   type: String,
-    //   required: true
-    // },
+    prop: {
+      type: String,
+      required: true
+    },
     // label: {
     //   type: String
     // },
@@ -37,13 +37,12 @@ export default {
       }
     }
   },
-  mounted() {
-    console.log(this)
-  },
   setup(props, { slots }) {
     const modelValue = ref(1)
     const loading = ref(false)
     const primaryKey = inject('primaryKey')
+    // const prop = inject('prop')
+    console.log("aaaaaa", primaryKey)
 
     const beforeChange = async (id) => {
       // loading.value = true
@@ -74,6 +73,7 @@ export default {
       loading,
       modelValue,
       primaryKey,
+      //prop,
       onChange,
       beforeChange,
       onClick
